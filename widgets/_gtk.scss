@@ -1,0 +1,19 @@
+@use "sass:string";
+
+@function gtkalpha($c, $a) {
+  @return string.unquote($string: "alpha(#{$c},#{$a})");
+}
+
+@function gtkmix($c1, $c2, $r) {
+  $ratio: 1 - $r / 100%; // match SCSS mix()
+  @return string.unquote($string: "mix(#{$c1},#{$c2},#{$ratio})");
+}
+
+// Multiplies the luminance of $c by $s
+@function gtkshade($c, $s) {
+  @return string.unquote($string: "shade(#{$c},#{$s})");
+}
+
+@function gtkcolor($c) {
+  @return string.unquote($string: "@#{$c}")
+}

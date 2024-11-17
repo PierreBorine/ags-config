@@ -1,0 +1,24 @@
+@use 'Hyalos';
+@use 'System24';
+
+window.bar {
+  & > eventbox > centerbox {
+    padding: 0 4px 0 0;
+  }
+  button {
+      background-color: transparent;
+  }
+  
+  label {
+      font-weight: bold;
+  }
+  
+  .volume button {
+      padding: 0;
+  }
+  
+  levelbar block,
+  highlight {
+      min-height: 10px;
+  }
+}

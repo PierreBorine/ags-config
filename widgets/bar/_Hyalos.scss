@@ -1,0 +1,38 @@
+@use '../gtk' as *;
+@use '../../base16' as *;
+
+window.bar.System24 {
+  border-radius: 0px;
+  border: solid 1px $base03;
+  background-color: $base00;
+  color: $base05;
+
+  &:hover {
+    border: solid 1px $base0D;
+  }
+
+  .workspaces button {
+    min-width: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  
+  .workspaces button:active,
+  .easyeffects button:active {
+    background-color: gtkcolor(theme_selected_bg_color);
+  }
+  
+  .workspaces button:hover,
+  .easyeffects button:hover {
+    border-bottom: 3px solid gtkcolor(theme_fg_color);
+  }
+  
+  .workspaces button.focused {
+    border-bottom: 3px solid gtkcolor(theme_selected_bg_color);
+  }
+  
+  #clock {
+    font-weight: bold;
+    font-family: 'Poppins';
+  }
+}
