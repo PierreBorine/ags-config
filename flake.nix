@@ -17,6 +17,9 @@
   }: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+    inherit (nixpkgs.lib) removePrefix;
+
+    mkHex = color: removePrefix "#" color;
 
     defaultBase16 = {
       base00 = "#151718";
@@ -51,22 +54,22 @@
 
       _base16 = with finalBase16;
         pkgs.writeText "_base16.scss" ''
-          $base00: ${base00};
-          $base01: ${base00};
-          $base02: ${base00};
-          $base03: ${base00};
-          $base04: ${base00};
-          $base05: ${base00};
-          $base06: ${base00};
-          $base07: ${base00};
-          $base08: ${base00};
-          $base09: ${base00};
-          $base0A: ${base00};
-          $base0B: ${base00};
-          $base0C: ${base00};
-          $base0D: ${base00};
-          $base0E: ${base00};
-          $base0F: ${base00};
+          $base00: #${mkHex base00};
+          $base01: #${mkHex base00};
+          $base02: #${mkHex base00};
+          $base03: #${mkHex base00};
+          $base04: #${mkHex base00};
+          $base05: #${mkHex base00};
+          $base06: #${mkHex base00};
+          $base07: #${mkHex base00};
+          $base08: #${mkHex base00};
+          $base09: #${mkHex base00};
+          $base0A: #${mkHex base00};
+          $base0B: #${mkHex base00};
+          $base0C: #${mkHex base00};
+          $base0D: #${mkHex base00};
+          $base0E: #${mkHex base00};
+          $base0F: #${mkHex base00};
         '';
 
       vars = pkgs.writeText "vars.ts" ''

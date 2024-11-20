@@ -1,2 +1,2 @@
-export const themeName = "System24";
+export const themeName = "Hyalos";
 export const instanceName = "ags-bar-test";
