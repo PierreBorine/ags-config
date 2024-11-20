@@ -47,12 +47,12 @@
       base16 ? defaultBase16,
       extraPackages,
     }: let
-      finalBase16 =
+      _base16 =
         if builtins.isNull base16
         then defaultBase16
         else base16;
 
-      _base16 = with finalBase16;
+      base16SCSS = with _base16;
         pkgs.writeText "_base16.scss" ''
           $base00: #${mkHex base00};
           $base01: #${mkHex base00};
@@ -72,7 +72,7 @@
           $base0F: #${mkHex base00};
         '';
 
-      vars = pkgs.writeText "vars.ts" ''
+      varsTS = pkgs.writeText "vars.ts" ''
         export const themeName = "${theme}";
         export const instanceName = "${name}";
       '';
@@ -81,8 +81,8 @@
         inherit pkgs name extraPackages;
         src =
           [
-            vars
-            _base16
+            varsTS
+            base16SCSS
           ]
           ++ src;
         entry = "app.ts";
