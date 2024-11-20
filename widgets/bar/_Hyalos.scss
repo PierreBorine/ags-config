@@ -1,38 +1,78 @@
 @use '../gtk' as *;
-@use '../../base16' as *;
 
-window.bar.System24 {
-  border-radius: 0px;
-  border: solid 1px $base03;
-  background-color: $base00;
-  color: $base05;
+window.bar.Hyalos {
+  background-color: rgba(21, 23, 24, 0.55);
+  border-bottom: solid 1px rgba(68, 68, 68, 0.8);
+  border-radius: 0;
+  box-shadow: 0px 2px 3px 0 rgba(0, 0, 0, 0.5);
+  color: gtkcolor(theme_fg_color);
 
-  &:hover {
-    border: solid 1px $base0D;
-  }
-
-  .workspaces button {
-    min-width: 0;
-    padding-top: 0;
-    padding-bottom: 0;
+  &, * {
+    font-family: Segoe-Fluent-Icons, Segoe-UI;
   }
   
-  .workspaces button:active,
-  .easyeffects button:active {
-    background-color: gtkcolor(theme_selected_bg_color);
+  .easyeffects button {
+    padding: 0;
+  }
+
+  .workspaces {
+    button {
+      padding: 0 1px;
+    }
+    & .workspace:first-child button {
+      padding: 0 1px 0 4px;
+    }
+  }
+
+  @keyframes show {
+    0% {
+      opacity: 0.3;
+      margin: .5em 0 .3em 0;
+    }
+    100% {
+      opacity: 1;
+      margin: .4em 0;
+    }
   }
   
-  .workspaces button:hover,
-  .easyeffects button:hover {
-    border-bottom: 3px solid gtkcolor(theme_fg_color);
+  /* .workspaces button.just-added label { */
+  /*   animation: show 200ms ease-out forwards; */
+  /* } */
+  
+  .easyeffects button image,
+  .workspaces button label {
+    transition: -gtk-icon-transform ease-out .1s, box-shadow ease .15s, margin ease-out .1s;
+    margin: .4em 0;
+    padding: 0 .5em;
+    min-width: 1em;
+    min-height: 1em;
+    border-radius: 6px;
   }
   
-  .workspaces button.focused {
-    border-bottom: 3px solid gtkcolor(theme_selected_bg_color);
+  .workspaces button.active label {
+    box-shadow: inset 0 0 0 100em rgba(128, 128, 128, 0.15),
+      inset 1px 0 0 rgba(102, 102, 102, 0.1), inset 0 1px 0 rgba(102, 102, 102, 0.3),
+  		inset -1px 0 rgba(102, 102, 102, 0.1), inset 0 -1px 0 rgba(102, 102, 102, 0.1);
+  }
+  
+  .easyeffects button:hover image,
+  .workspaces button:hover label {
+    box-shadow: inset 0 0 0 100em rgba(128, 128, 128, 0.2),
+      inset 1px 0 0 rgba(102, 102, 102, 0.1), inset 0 1px 0 rgba(102, 102, 102, 0.3),
+  		inset -1px 0 rgba(102, 102, 102, 0.1), inset 0 -1px 0 rgba(102, 102, 102, 0.1);
+    -gtk-icon-transform: scale(1.05);
+  }
+  
+  .easyeffects button:active image,
+  .workspaces button:active label {
+    -gtk-icon-transform: scale(0.95);
+    margin: .5em 0 .3em 0;
   }
   
   #clock {
-    font-weight: bold;
-    font-family: 'Poppins';
+    margin: 4px;
+  }
+  #clock label {
+    font-weight: 800;
   }
 }
