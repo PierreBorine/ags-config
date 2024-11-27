@@ -75,6 +75,7 @@
       varsTS = pkgs.writeText "vars.ts" ''
         export const themeName = "${theme}";
         export const instanceName = "${name}";
+        export const NIXSRC = "$nixout/share";
       '';
     in
       (ags.lib.bundle {
@@ -92,6 +93,9 @@
           for srcFile in $src; do
             cp -r $srcFile $(stripHash $srcFile)
           done
+        '';
+        patchPhase = ''
+          sed -i "s/\$nixout/''${out//\//\\/}/g" vars.ts
         '';
       };
   in {
