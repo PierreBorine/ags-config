@@ -9,13 +9,13 @@
         // "checkJs": true,
         // "allowJs": true,
         "jsx": "react-jsx",
-        "jsxImportSource": "/nix/store/ii2w7wv88fjvmldn8kzz8ni20kzpkld4-astal-gjs/share/astal/gjs/gtk3",
+        "jsxImportSource": "/nix/store/v6y0zann4p9rygr3hwxl5h3rgwhsr8y1-astal-gjs/share/astal/gjs/gtk3",
         "paths": {
             "astal": [
-                "/nix/store/ii2w7wv88fjvmldn8kzz8ni20kzpkld4-astal-gjs/share/astal/gjs"
+                "/nix/store/v6y0zann4p9rygr3hwxl5h3rgwhsr8y1-astal-gjs/share/astal/gjs"
             ],
             "astal/*": [
-                "/nix/store/ii2w7wv88fjvmldn8kzz8ni20kzpkld4-astal-gjs/share/astal/gjs/*"
+                "/nix/store/v6y0zann4p9rygr3hwxl5h3rgwhsr8y1-astal-gjs/share/astal/gjs/*"
             ]
         },
     }

@@ -6,6 +6,8 @@ import Volume from "./items/volume";
 import UpdateIcon from "./items/updateIcon";
 import Tray from "./items/tray";
 
+const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
+
 import { dispatchWorkspace } from "./items/workspaces";
 import { themeName } from '../../vars';
 import { getMonitorIndex } from "../utils";
@@ -23,9 +25,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
         gdkmonitor={gdkmonitor}
         margin={margin[themeName]}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
-        anchor={Astal.WindowAnchor.TOP
-            | Astal.WindowAnchor.LEFT
-            | Astal.WindowAnchor.RIGHT}
+        anchor={TOP | LEFT | RIGHT}
         application={App}>
         <eventbox
             onScroll={(_, e) => dispatchWorkspace(e.delta_y > 0 ? 'e+1' : 'e-1')}>

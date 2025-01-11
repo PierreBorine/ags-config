@@ -4,14 +4,22 @@ ags-config
 My personal [ags](https://github.com/Aylur/ags)/[Astal](https://github.com/aylur/astal) configuration
 
 ## Running
+If using Nix, you can simply run the following command to try it without installing
+```Shell
+nix run github:PierreBorine/ags-config
+```
 
-This config can be ran using ags.
+Otherwise, you can download the config and execute in just like any other ags config
+```Shell
+git clone https://github.com/PierreBorine/ags-config.git
+```
+
 Run `nix develop` first if on Nix.
 ```Shell
 ags run .
 ```
 
-or using by Nix:
+or with Nix
 ```Shell
 nix run
 ```
