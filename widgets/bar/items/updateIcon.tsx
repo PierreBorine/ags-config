@@ -13,7 +13,7 @@ if (GLib.getenv("FLAKE")) {
     if (exec('bash -c "[ -f "$FLAKE/flake.lock" ] && echo true"') === 'true') {
         print("nixpkgs check: flake.lock exists");
         // 1800000 == 30*1000*60 == 30 min
-        update.poll(1800000, `bash -c "${NIXSRC}/widgets/bar/items/nixpkgsUpdate.sh"`);
+        update.poll(1800000, `bash ${NIXSRC}/widgets/bar/items/nixpkgsUpdate.sh`);
     } else {print("nixpkgs check: $FLAKE/flake.lock doesn't exist")}
 } else {print("nixpkgs check: $FLAKE is not set")}
 

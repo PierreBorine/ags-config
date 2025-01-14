@@ -23,7 +23,7 @@ revs=$(jq -r '.nodes | with_entries(select(.key | test("nixpkgs_?[1-9]*\\d*"))) 
 
 update_available="true"
 # Match the new revision with the ones in flake.lock
-if echo "$revs" | grep -qv "^$new_rev$"; then
+if echo "$revs" | grep -q "^$new_rev$"; then
   update_available="false"
 fi
 
