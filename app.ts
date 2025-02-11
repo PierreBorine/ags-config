@@ -14,7 +14,7 @@ function updateCSS() {
 };
 
 if (SRC === NIXSRC) {
-    monitorFile(`${SRC}/widgets/bar/_Hyalos.scss`, updateCSS);
+    monitorFile(`${SRC}/widgets/bar/_index.scss`, updateCSS);
 }
 
 App.start({

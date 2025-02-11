@@ -1,4 +1,4 @@
-import { Astal, Gtk, Widget } from 'astal/gtk3';
+import { Gtk, Widget } from 'astal/gtk3';
 import { timeout } from "astal/time"
 import { Variable } from "astal"
 

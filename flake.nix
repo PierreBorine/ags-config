@@ -43,7 +43,6 @@
     mkBundle = {
       name,
       src,
-      theme,
       base16 ? defaultBase16,
       extraPackages,
     }: let
@@ -73,7 +72,6 @@
         '';
 
       varsTS = pkgs.writeText "vars.ts" ''
-        export const themeName = "${theme}";
         export const instanceName = "${name}";
         export const NIXSRC = "$nixout/share";
       '';
@@ -102,11 +100,10 @@
     lib = {
       mkBar = {
         name ? "ags-bar",
-        theme ? "Hyalos",
         base16 ? null,
       }:
         mkBundle {
-          inherit name theme base16;
+          inherit name base16;
 
           src = [
             ./widgets

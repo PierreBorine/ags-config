@@ -1,7 +1,7 @@
 ags-config
 ==========
 
-My personal [ags](https://github.com/Aylur/ags)/[Astal](https://github.com/aylur/astal) configuration
+My personal [Ags](https://github.com/Aylur/ags)/[Astal](https://github.com/aylur/astal) configuration
 
 ## Running
 If using Nix, you can simply run the following command to try it without installing
@@ -19,15 +19,8 @@ Run `nix develop` first if on Nix.
 ags run .
 ```
 
-or with Nix
-```Shell
-nix run
-```
-
-## Using in Nix config
-
-### Flake
-Add to flake inputs:
+## Nix Flakes
+Add to the inputs
 ```Nix
 ags-config = {
   url = "github:PierreBorine/ags-config";
@@ -36,7 +29,7 @@ ags-config = {
 ```
 
 ### Customize bundles
-Example:
+Example Home Manager config
 ```Nix
 {
   config,
@@ -49,9 +42,6 @@ Example:
   barBundle = inputs.ags-config.lib.mkBar {
     # Name of the binary and Astal instance.
     name = barName;
-    # Name of the javascript variable "themeName"
-    # This bar currently has "Hyalos" and "System24"
-    theme = "Hyalos";
     # base00 to base0F hex colors.
     # Using Stylix colors here.
     base16 = config.lib.stylix.colors;
@@ -72,7 +62,7 @@ in {
 }
 ```
 
-The base16 could also be a custom set of colors
+The base16 can also be a custom set of colors
 ```Nix
 {
   base00 = "#151718";
@@ -93,5 +83,5 @@ The base16 could also be a custom set of colors
   base0F = "#8a553f";
 }
 ```
-
-Local `vars.ts` & `_base16.scss` are ignored by the Nix bundler, they are instead re-generated with Nix.
+> [!NOTE]
+> Local `vars.ts` & `_base16.scss` are ignored by the Nix bundler, they are instead re-generated with Nix.

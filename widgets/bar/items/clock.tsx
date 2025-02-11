@@ -5,9 +5,9 @@ const time = Variable("").poll(1000, 'date "+%H:%M"'); // 1s
 
 export default () => {
     return <centerbox
-      name="clock"
-      vertical
-      startWidget={<label label={time()} />}
-      endWidget={<label label={date()} />}>
+        name="clock"
+        vertical
+        startWidget={<label label={time()} />}
+        endWidget={<label label={date()} />}>
     </centerbox>
 }

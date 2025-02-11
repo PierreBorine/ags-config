@@ -22,7 +22,7 @@ export default () => <box
         />
     </button>
 
-    <slider 
+    <slider
         hexpand
         drawValue = {false}
         onDragged={(self) => speaker.volume = self.value}

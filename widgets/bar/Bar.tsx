@@ -9,28 +9,22 @@ import Tray from "./items/tray";
 const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
 
 import { dispatchWorkspace } from "./items/workspaces";
-import { themeName } from '../../vars';
 import { getMonitorIndex } from "../utils";
-
-const margin = {
-    "Hyalos": 0,
-    "System24": 9
-};
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
     return <window
         name='ags-bar'
         namespace={`ags-bar-${getMonitorIndex(gdkmonitor)}`}
-        className={['bar', themeName].join(' ')}
+        className={'bar'}
         gdkmonitor={gdkmonitor}
-        margin={margin[themeName]}
+        margin={0}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={TOP | LEFT | RIGHT}
         application={App}>
         <eventbox
             onScroll={(_, e) => dispatchWorkspace(e.delta_y > 0 ? 'e+1' : 'e-1')}>
             <centerbox
-                startWidget={<box 
+                startWidget={<box
                     className="left"
                     spacing={8}
                     halign={Gtk.Align.START}>
