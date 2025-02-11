@@ -3,6 +3,11 @@ ags-config
 
 My personal [Ags](https://github.com/Aylur/ags)/[Astal](https://github.com/aylur/astal) configuration
 
+> [!WARNING]
+> I do not recommend actually using this in your configuration as I may change and break everything at any moment.
+>
+> You have been warned, have fun !
+
 ## Running
 If using Nix, you can simply run the following command to try it without installing
 ```Shell
