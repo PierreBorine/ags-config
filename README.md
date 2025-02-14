@@ -1,5 +1,8 @@
-ags-config
-==========
+```
+▄▀█ █▀▀ █▀ ▄▄ ▄▀▀ █▀█ █▄░█ █▀▀ ▀█▀ █▀▀
+█▀█ █▄█ ▄█    ▀▄▄ █▄█ █░▀█ █▀░ ▄█▄ █▄█
+```
+---
 
 My personal [Ags](https://github.com/Aylur/ags)/[Astal](https://github.com/aylur/astal) configuration
 
@@ -90,3 +93,6 @@ The base16 can also be a custom set of colors
 ```
 > [!NOTE]
 > Local `vars.ts` & `_base16.scss` are ignored by the Nix bundler, they are instead re-generated with Nix.
+
+## Thanks
+To [matt1432](https://git.nelim.org/matt1432/nixos-configs) for sharing such a nice Ags config.

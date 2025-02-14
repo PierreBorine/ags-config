@@ -1,77 +1,75 @@
-import { App, Gdk, Gtk, Widget } from 'astal/gtk3';
+import { App, Gtk, Widget } from 'astal/gtk3';
 import { bind, idle } from 'astal';
-import { MOUSE_BUTTON } from '../../utils';
 
 import AstalTray from 'gi://AstalTray';
-const Tray = AstalTray.get_default();
 
-
-const SKIP_ITEMS = ['.spotify-wrapped'];
+const SKIP_ITEMS = ['.spotify-wrapped', 'spotify'];
 
 const TrayItem = (item: AstalTray.TrayItem) => {
     if (item.iconThemePath) {
-        App.add_icons(item.iconThemePath);
+        App.add_icons(item.get_icon_theme_path());
     }
-
-    const menu = item.create_menu();
 
     return (
         <revealer
             transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
-            revealChild={false}>
-            <button
+            revealChild={false}
+        >
+            <menubutton
                 className="tray-item"
                 cursor="pointer"
+
+                usePopover={false}
                 tooltipMarkup={bind(item, 'tooltipMarkup')}
-                onDestroy={() => menu?.destroy()}
-                onClickRelease={(self, event) => {
-                    if (event.button === MOUSE_BUTTON.LEFT) item.activate(1, 0);
-                    if (event.button === MOUSE_BUTTON.RIGHT)
-                        menu?.popup_at_widget(self, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null);
-                }}>
-                <icon gIcon={bind(item, 'gicon')} />
-            </button>
+                actionGroup={bind(item, 'actionGroup').as((ag) => ['dbusmenu', ag])}
+                menuModel={bind(item, 'menuModel')}
+            >
+                <icon gicon={bind(item, 'gicon')} />
+            </menubutton>
         </revealer>
     );
 };
 
 export default () => {
+    const tray = AstalTray.get_default();
+
     const itemMap = new Map<string, Widget.Revealer>();
 
     return (
         <box
             className="bar-item system-tray"
-            visible={bind(Tray, 'items').as((items) => items.length !== 0)}
-            setup={self => {
-                self.hook(Tray, 'item-added', (_, item: string) => {
-                    if (itemMap.has(item) || SKIP_ITEMS.includes(Tray.get_item(item).title)) {
-                        return;
-                    }
+            visible={bind(tray, 'items').as((items) => items.length !== 0)}
+            setup={(self) => {
+                self
+                    .hook(tray, 'item-added', (_, item: string) => {
+                        if (itemMap.has(item) || SKIP_ITEMS.includes(tray.get_item(item).get_title())) {
+                            return;
+                        }
 
-                    const widget = TrayItem(Tray.get_item(item)) as Widget.Revealer;
+                        const widget = TrayItem(tray.get_item(item)) as Widget.Revealer;
 
-                    itemMap.set(item, widget);
+                        itemMap.set(item, widget);
 
-                    self.add(widget);
+                        self.add(widget);
 
-                    idle(() => {
-                        widget.set_reveal_child(true);
+                        idle(() => {
+                            widget.set_reveal_child(true);
+                        });
+                    })
+
+                    .hook(tray, 'item-removed', (_, item: string) => {
+                        if (!itemMap.has(item)) {
+                            return;
+                        }
+
+                        const widget = itemMap.get(item);
+
+                        widget?.set_reveal_child(false);
+
+                        setTimeout(() => {
+                            widget?.destroy();
+                        }, 1000);
                     });
-                })
-
-                .hook(Tray, 'item-removed', (_, item: string) => {
-                    if (!itemMap.has(item)) {
-                        return;
-                    }
-
-                    const widget = itemMap.get(item);
-
-                    widget?.set_reveal_child(false);
-
-                    setTimeout(() => {
-                        widget?.destroy();
-                    }, 1000);
-                });
             }}
         />
     );

@@ -15,7 +15,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
     return <window
         name='ags-bar'
         namespace={`ags-bar-${getMonitorIndex(gdkmonitor)}`}
-        className={'bar'}
+        className='bar'
         gdkmonitor={gdkmonitor}
         margin={0}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
