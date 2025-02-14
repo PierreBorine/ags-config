@@ -17,60 +17,12 @@
   }: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
-    inherit (nixpkgs.lib) removePrefix;
-
-    mkHex = color: removePrefix "#" color;
-
-    defaultBase16 = {
-      base00 = "#151718";
-      base01 = "#282a2b";
-      base02 = "#3B758C";
-      base03 = "#41535B";
-      base04 = "#43a5d5";
-      base05 = "#d6d6d6";
-      base06 = "#eeeeee";
-      base07 = "#ffffff";
-      base08 = "#Cd3f45";
-      base09 = "#db7b55";
-      base0A = "#e6cd69";
-      base0B = "#9fca56";
-      base0C = "#55dbbe";
-      base0D = "#55b5db";
-      base0E = "#a074c4";
-      base0F = "#8a553f";
-    };
 
     mkBundle = {
       name,
       src,
-      base16 ? defaultBase16,
       extraPackages,
     }: let
-      _base16 =
-        if builtins.isNull base16
-        then defaultBase16
-        else base16;
-
-      base16SCSS = with _base16;
-        pkgs.writeText "_base16.scss" ''
-          $base00: #${mkHex base00};
-          $base01: #${mkHex base00};
-          $base02: #${mkHex base00};
-          $base03: #${mkHex base00};
-          $base04: #${mkHex base00};
-          $base05: #${mkHex base00};
-          $base06: #${mkHex base00};
-          $base07: #${mkHex base00};
-          $base08: #${mkHex base00};
-          $base09: #${mkHex base00};
-          $base0A: #${mkHex base00};
-          $base0B: #${mkHex base00};
-          $base0C: #${mkHex base00};
-          $base0D: #${mkHex base00};
-          $base0E: #${mkHex base00};
-          $base0F: #${mkHex base00};
-        '';
-
       varsTS = pkgs.writeText "vars.ts" ''
         export const instanceName = "${name}";
         export const NIXSRC = "$nixout/share";
@@ -78,12 +30,7 @@
     in
       (ags.lib.bundle {
         inherit pkgs name extraPackages;
-        src =
-          [
-            varsTS
-            base16SCSS
-          ]
-          ++ src;
+        src = src ++ [varsTS];
         entry = "app.ts";
       })
       .overrideAttrs {
@@ -98,12 +45,9 @@
       };
   in {
     lib = {
-      mkBar = {
-        name ? "ags-bar",
-        base16 ? null,
-      }:
+      mkBar = {name ? "ags-bar"}:
         mkBundle {
-          inherit name base16;
+          inherit name;
 
           src = [
             ./widgets
