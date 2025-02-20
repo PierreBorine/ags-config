@@ -7,16 +7,21 @@ import { NIXSRC } from "../../../vars";
 export default () => {
     const update = Variable("");
 
-    // 1. Test if FLAKE env var is set
-    if (GLib.getenv("FLAKE")) {
-        print("nixpkgs check: $FLAKE is set");
-        // 2. Test if flake.lock exists
-        if (exec('bash -c "[ -f "$FLAKE/flake.lock" ] && echo true"') === 'true') {
-            print("nixpkgs check: flake.lock exists");
-            // 1800000 == 30*1000*60 == 30 min
-            update.poll(1800000, ["bash", `${NIXSRC}/widgets/bar/items/nixpkgsUpdate.sh`]);
-        } else {print("nixpkgs check: $FLAKE/flake.lock doesn't exist")}
-    } else {print("nixpkgs check: $FLAKE is not set")}
+    try {
+        // 1. Test if FLAKE env var is set
+        if (GLib.getenv("FLAKE")) {
+            print("nixpkgs check: $FLAKE is set");
+            // 2. Test if flake.lock exists
+            if (exec('bash -c "[ -f "$FLAKE/flake.lock" ] && echo true"') === 'true') {
+                print("nixpkgs check: flake.lock exists");
+                // 1800000 == 30*1000*60 == 30 min
+                update.poll(1800000, ["bash", `${NIXSRC}/widgets/bar/items/nixpkgsUpdate.sh`]);
+            } else {print("nixpkgs check: $FLAKE/flake.lock doesn't exist")}
+        } else {print("nixpkgs check: $FLAKE is not set")}
+    } catch(error) {
+        console.log("updateIcon.tsx: ERROR");
+        console.log(error);
+    }
 
     return (
         <button
