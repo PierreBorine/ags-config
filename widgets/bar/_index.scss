@@ -47,4 +47,60 @@ window.bar {
     margin: 4px;
     label {font-weight: 800}
   }
+
+  .powerMenuButton {
+    padding: 0;
+
+    icon {
+      box-shadow: $fluent-box;
+      border-radius: $border-radius-small;
+      padding: .5em .6em;
+      margin: .4em 0 .4em 0;
+      transition: all .1s ease;
+    }
+
+    &:hover icon {
+      box-shadow: $fluent-box-hover;
+      margin: .3em 0 .5em 0;
+    }
+
+    &:active icon {
+      margin: .45em 0 .35em 0;
+      -gtk-icon-transform: scale(0.95);
+    }
+  }
+}
+
+window.powerMenu {
+  .popup {
+    background-color: $bg-color;
+    border: $win-border;
+    border-top: none;
+    border-radius: 0 0 $border-radius $border-radius;
+    padding: 12px;
+
+    .logout-menu {
+      button {
+        transition: all .1s ease;
+        background: transparent;
+        box-shadow: $fluent-box;
+        border-radius: $border-radius-small;
+        margin: .2em;
+        padding: .6em .8em;
+
+        &:hover {
+          box-shadow: $fluent-box-hover;
+          margin: .1em .2em .3em .2em;
+        }
+
+        &:active {
+          margin: .25em .2em .15em .2em;
+
+          icon {
+            -gtk-icon-transform: scale(0.95);
+          }
+        }
+      }
+    }
+  }
 }

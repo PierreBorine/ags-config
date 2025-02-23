@@ -50,6 +50,7 @@
           inherit name;
 
           src = [
+            ./icons
             ./widgets
             ./app.ts
             ./style.scss

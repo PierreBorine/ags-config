@@ -2,7 +2,7 @@ import Apps from "gi://AstalApps"
 import { App, Astal, Gdk, Gtk } from "astal/gtk3"
 import { Variable } from "astal"
 
-const MAX_ITEMS = 8
+const MAX_ITEMS = 6
 
 function hide() {
     App.get_window("launcher")!.hide()

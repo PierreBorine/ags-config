@@ -23,6 +23,7 @@ if (SRC === NIXSRC) {
 App.start({
     instanceName,
     css: style,
+    icons: `${NIXSRC}/icons`,
     main() {
         App.get_monitors().map(Bar);
         Applauncher();

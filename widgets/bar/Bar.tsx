@@ -5,6 +5,7 @@ import Workspaces from "./items/workspaces";
 import Volume from "./items/volume";
 import UpdateIcon from "./items/updateIcon";
 import Tray from "./items/tray";
+import PowerMenu from "./items/powerMenu";
 
 const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
 
@@ -44,6 +45,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
                     <Tray />
                     <UpdateIcon />
                     <Volume />
+                    <PowerMenu />
                 </box>} />
         </eventbox>
     </window>
