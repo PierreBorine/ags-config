@@ -1,6 +1,7 @@
 import { App } from "astal/gtk3";
 import style from "./style.scss";
 import Bar from "./widgets/bar/Bar";
+import Applauncher from "./widgets/appLauncher/AppLauncher";
 
 import { instanceName, NIXSRC } from "./vars";
 
@@ -14,7 +15,9 @@ function updateCSS() {
 };
 
 if (SRC === NIXSRC) {
+    monitorFile(`${SRC}/widgets/_shared.scss`, updateCSS);
     monitorFile(`${SRC}/widgets/bar/_index.scss`, updateCSS);
+    monitorFile(`${SRC}/widgets/appLauncher/_index.scss`, updateCSS);
 }
 
 App.start({
@@ -22,5 +25,6 @@ App.start({
     css: style,
     main() {
         App.get_monitors().map(Bar);
+        Applauncher();
     },
 })

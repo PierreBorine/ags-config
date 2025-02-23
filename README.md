@@ -40,27 +40,34 @@ ags-config = {
 Example Home Manager config
 ```Nix
 {
-  config,
   inputs,
   pkgs,
   lib,
   ...
 }: let
-  barName = "ags-bar";
-  barBundle = inputs.ags-config.lib.mkBar {
-    # Name of the binary and Astal instance.
-    name = barName;
+  agsName = "ags-widgets";
+  agsBundle = inputs.ags-config.lib.mkWidgets {
+    name = agsName;
   };
+
+  startAgs = pkgs.writeScript "start-ags" ''
+    pkill -f '.${agsName}-wrapped'
+    ${lib.getExe agsBundle}
+  '';
 in {
+  home.packages = [inputs.ags-config.inputs.ags.packages.${pkgs.system}.ags];
   wayland.windowManager.hyprland = {
     settings = {
-      exec = [
-        "pgrep '.${barName}-wrapped' && pkill '.${barName}-wrapped' ; ${lib.getExe barBundle}"
+      layerrule = [
+        "blur, ^(ags-)(.*)$"
+        "ignorezero, ^(ags-)(.*)$"
+        "animation popin, ags-launcher"
       ];
 
-      layerrule = [
-        "blur, ^(${barName}-)"
-        "ignorezero, ^(${barName}-)"
+      exec = [startAgs];
+
+      bind = [
+        "$mainMod, D, exec, ags toggle -i '${agsName}' launcher #apps: Summon the app launcher"
       ];
     };
   };

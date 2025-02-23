@@ -45,7 +45,7 @@
       };
   in {
     lib = {
-      mkBar = {name ? "ags-bar"}:
+      mkWidgets = {name ? "ags-widgets"}:
         mkBundle {
           inherit name;
 
@@ -60,15 +60,16 @@
             hyprland
             tray
             wireplumber
+            apps
           ];
         };
     };
 
     packages.${system} = {
-      bar = self.lib.mkBar {};
+      widgets = self.lib.mkWidgets {};
 
       # For `nix build` & `nix run`
-      default = self.lib.mkBar {name = "ags-bar-test";};
+      default = self.lib.mkWidgets {name = "ags-widgets-test";};
     };
 
     devShells.${system} = {

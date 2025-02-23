@@ -1,2 +1,2 @@
-export const instanceName = "ags-bar-test";
+export const instanceName = "ags-widgets-test";
 export const NIXSRC = SRC;
