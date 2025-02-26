@@ -55,19 +55,22 @@ Example Home Manager config
     ${lib.getExe agsBundle}
   '';
 in {
-  home.packages = [inputs.ags-config.inputs.ags.packages.${pkgs.system}.ags];
+  home.packages = [pkgs.ags];
   wayland.windowManager.hyprland = {
     settings = {
       layerrule = [
         "blur, ^(ags-)(.*)$"
         "ignorezero, ^(ags-)(.*)$"
         "animation popin, ags-launcher"
+        # Put the power menu under the bar
+        "order 1, ags-powerMenu"
       ];
 
       exec = [startAgs];
 
       bind = [
-        "$mainMod, D, exec, ags toggle -i '${agsName}' launcher #apps: Summon the app launcher"
+        "$mainMod, D, exec, ags toggle -i '${agsName}' launcher"
+        "$mainMod, D, exec, ags toggle -i '${agsName}' launcher"
       ];
     };
   };
