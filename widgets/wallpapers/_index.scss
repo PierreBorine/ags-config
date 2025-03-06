@@ -1,0 +1,46 @@
+@use '../gtk' as *;
+@use '../shared' as *;
+
+window#wallpapers {
+  all: unset;
+
+  box.wallpapers {
+    background: $bg-color;
+    border: $win-border;
+    border-radius: $border-radius;
+    margin: 1rem;
+    padding: .8rem;
+
+    .header {
+      button {
+        background: transparent;
+        box-shadow: $fluent-box;
+
+        &:hover {
+          box-shadow: $fluent-box-hover;
+        }
+      }
+    }
+    .grid .wallpaper {
+      button {
+        background: transparent;
+        margin: 2px;
+        transition: margin 150ms ease-out;
+
+        &:hover {
+          margin: 1px;
+        }
+
+        &:active {
+          margin: 3px;
+        }
+      }
+
+      .image {
+        box-shadow: $fluent-border;
+        border-radius: 15px;
+        background-position: center;
+      }
+    }
+  }
+}
