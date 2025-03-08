@@ -51,6 +51,7 @@
 
           src = [
             ./icons
+            ./utils
             ./widgets
             ./app.ts
             ./style.scss
