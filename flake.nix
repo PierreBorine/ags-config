@@ -81,5 +81,10 @@
         ];
       };
     };
+
+    homeManagerModules = {
+      default = self.homeManagerModules.ags-config;
+      ags-config = import ./hm.nix self;
+    };
   };
 }

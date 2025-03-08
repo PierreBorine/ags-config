@@ -39,48 +39,32 @@ ags-config = {
 };
 ```
 
-### Customize bundles
-Example Home Manager config
+### Home Manager module
+For convenience, the flake provides a Home Manager module
 ```Nix
-{
-  inputs,
-  pkgs,
-  lib,
-  ...
-}: let
-  agsName = "ags-widgets";
-  agsBundle = inputs.ags-config.lib.mkWidgets {
-    name = agsName;
-  };
+{inputs, ...}: {
+  imports = [inputs.ags-config.homeManagerModules.default];
 
-  startAgs = pkgs.writeScript "start-ags" ''
-    pkill -f '.${agsName}-wrapped'
-    ${lib.getExe agsBundle}
-  '';
-in {
-  home.packages = [pkgs.ags];
-  wayland.windowManager.hyprland = {
-    settings = {
-      layerrule = [
-        "blur, ^(ags-)(.*)$"
-        "ignorezero, ^(ags-)(.*)$"
-        "animation popin, ags-launcher"
-        "animation slide right, ags-wallpapers"
-        # Put the power menu under the bar
-        "order 1, ags-powerMenu"
-      ];
+  ags-config = {
+    # Also installs `pkgs.ags`
+    enable = true;
 
-      # Restart Ags when there are changes
-      exec = [startAgs];
-
-      bind = [
-        "$mainMod, D, exec, ags toggle -i '${agsName}' launcher"
-        "$mainMod, D, exec, ags toggle -i '${agsName}' launcher"
-      ];
+    hyprland = {
+      # true by default
+      layerrules = true;
+      # false by default
+      autoStart = true;
+      # false by default
+      # If you don't like my binds, copy them
+      # from `hm.nix` and edit them to your liking.
+      binds = true;
     };
   };
 }
 ```
+
+> [!TIP]
+> If you have an [impermanent](https://github.com/nix-community/impermanence) setup, you should persist `$HOME/.cache/astal`.
 
 > [!NOTE]
 > Local `vars.ts` is ignored by the Nix bundler. Instead, it uses one generated with Nix.
