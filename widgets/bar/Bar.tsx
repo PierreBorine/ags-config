@@ -10,7 +10,7 @@ import PowerMenu from "./items/powerMenu";
 const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
 
 import { dispatchWorkspace } from "./items/workspaces";
-import { getMonitorIndex } from "../utils";
+import { getMonitorIndex } from "../../utils";
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
     return <window

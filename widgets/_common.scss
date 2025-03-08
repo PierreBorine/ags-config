@@ -1,0 +1,9 @@
+@use 'gtk' as *;
+@use 'shared' as *;
+
+separator {
+  padding: 1px;
+  border-radius: 1em;
+  background: transparent;
+  box-shadow: $fluent-box;
+}

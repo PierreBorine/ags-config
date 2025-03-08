@@ -10,9 +10,11 @@ window#wallpapers {
     border-radius: $border-radius;
     margin: 1rem;
     padding: .8rem;
+    .frame { border: none; }
 
     .header {
-      button {
+      padding: 0 12px;
+      button.pageBtn {
         background: transparent;
         box-shadow: $fluent-box;
 
@@ -20,26 +22,36 @@ window#wallpapers {
           box-shadow: $fluent-box-hover;
         }
       }
+      .reload {
+        border-radius: 4px;
+
+        button {
+          background: transparent;
+          box-shadow: $fluent-box;
+          &:hover {
+            box-shadow: $fluent-box-hover;
+          }
+        }
+        spinner {
+          padding: 8px 7px;
+        }
+      }
     }
-    .grid .wallpaper {
-      button {
+
+    stack .page {
+      .wallpaper {
         background: transparent;
         margin: 2px;
         transition: margin 150ms ease-out;
 
-        &:hover {
-          margin: 1px;
-        }
+        &:hover { margin: 1px; }
 
-        &:active {
-          margin: 3px;
-        }
-      }
+        &:active { margin: 3px; }
 
-      .image {
-        box-shadow: $fluent-border;
-        border-radius: 15px;
-        background-position: center;
+        .image {
+          box-shadow: $fluent-border;
+          border-radius: 15px;
+        }
       }
     }
   }

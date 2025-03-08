@@ -90,7 +90,32 @@ window.powerMenu {
 
         &:hover {
           box-shadow: $fluent-box-hover;
-          margin: .1em .2em .3em .2em;
+          margin: .1em .2em .35em .2em;
+          background: rgb(205, 63, 69);
+        }
+
+        &:active {
+          margin: .25em .2em .15em .2em;
+
+          icon {
+            -gtk-icon-transform: scale(0.95);
+          }
+        }
+      }
+    }
+
+    .utils {
+      button {
+        transition: all .1s ease;
+        background: transparent;
+        box-shadow: $fluent-box;
+        border-radius: $border-radius-small;
+        margin: .2em;
+        padding: .5em .8em;
+
+        &:hover {
+          box-shadow: $fluent-box-hover;
+          margin: .1em .2em .35em .2em;
         }
 
         &:active {

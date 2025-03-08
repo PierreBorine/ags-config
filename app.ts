@@ -17,6 +17,7 @@ function updateCSS() {
 
 if (SRC === NIXSRC) {
     monitorFile(`${SRC}/widgets/_shared.scss`, updateCSS);
+    monitorFile(`${SRC}/widgets/_common.scss`, updateCSS);
     monitorFile(`${SRC}/widgets/bar/_index.scss`, updateCSS);
     monitorFile(`${SRC}/widgets/appLauncher/_index.scss`, updateCSS);
     monitorFile(`${SRC}/widgets/wallpapers/_index.scss`, updateCSS);

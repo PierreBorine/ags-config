@@ -1,10 +1,10 @@
 import { Gdk } from "astal/gtk3";
 
-export const MOUSE_BUTTON = {
+export const MOUSE_BUTTON = Object.freeze({
   LEFT: 1,
   MIDDLE: 2,
   RIGHT: 3
-};
+});
 
 export function getMonitorIndex(gdkmonitor: Gdk.Monitor) {
     const n_monitors = gdkmonitor.display.get_n_monitors();

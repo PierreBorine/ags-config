@@ -1,11 +1,15 @@
-import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
+import { App, Astal, Gdk, Gtk } from "astal/gtk3";
 import { exec } from "astal/process";
+import { Separator } from "../../../utils/Astalified";
 const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor;
 
-const PowerMenu = () => {
-    let window: Widget.Window;
+function hide() {
+    App.get_window("ags-powerMenu")!.hide()
+}
+
+function PowerMenu() {
     const execClose = (command: string) => {
-        window.visible = false;
+        hide();
         exec(['bash', '-c', command]);
     };
 
@@ -19,7 +23,6 @@ const PowerMenu = () => {
             keymode={Astal.Keymode.EXCLUSIVE}
             anchor={TOP | BOTTOM | LEFT | RIGHT}
             exclusivity={Astal.Exclusivity.IGNORE}
-            setup={(self) => window = self}
             // close when click occurs otside of child
             onButtonPressEvent={(self, event) => {
                 const [, _x, _y] = event.get_coords();
@@ -36,9 +39,9 @@ const PowerMenu = () => {
                 }
             }}
             // close when hitting Escape
-            onKeyPressEvent={(self, event: Gdk.Event) => {
+            onKeyPressEvent={(_, event: Gdk.Event) => {
                 if (event.get_keyval()[1] === Gdk.KEY_Escape) {
-                    self.visible = false;
+                    hide();
                 }
             }}
         >
@@ -51,7 +54,7 @@ const PowerMenu = () => {
                 marginTop={48}
                 marginEnd={0}
             >
-                <box className="popup" vertical>
+                <box className="popup" vertical spacing={4}>
                     <box className="logout-menu">
                         <button tooltipText="Shutdown" onClicked={() => execClose('systemctl poweroff')}>
                             <icon icon="system-shutdown-symbolic" />
@@ -64,6 +67,15 @@ const PowerMenu = () => {
                         </button>
                         <button tooltipText="Lock" onClicked={() => execClose('loginctl lock-session')}>
                             <icon icon="padlock2-symbolic" />
+                        </button>
+                    </box>
+                    <Separator />
+                    <box className="utils">
+                        <button tooltipText="Wallpapers" onClicked={() => {
+                            hide();
+                            App.get_window("wallpapers")!.show()
+                        }}>
+                            <icon icon="preferences-desktop-wallpaper-symbolic" />
                         </button>
                     </box>
                 </box>
