@@ -16,6 +16,31 @@ My personal <a href="https://github.com/Aylur/ags">Ags</a>/<a href="https://gith
 >
 > You have been warned, have fun !
 
+## Features
+
+<details>
+<summary>A top bar</summary>
+
+  - Default keybind to open the power menu is <kbd>$mainMod, m</kbd>
+
+</details>
+<details>
+<summary>An application launcher</summary>
+
+  - Default keybind to open is <kbd>$mainMod, d</kbd>
+
+</details>
+<details>
+<summary>A wallpaper selector</summary>
+
+  - Right now, it only works with [swww](https://github.com/LGFae/swww), making it a requirement.<br>
+  I plan to change that.
+  - Wallpapers have to be located in<br>
+  `~/Pictures/Wallpapers/images`.
+  - Only one level of sub-directories is supported.
+
+</details>
+
 ## Running
 If using Nix, you can simply run the following command to try it without installing
 ```Shell
@@ -68,6 +93,28 @@ For convenience, the flake provides a Home Manager module
 
 > [!NOTE]
 > Local `vars.ts` is ignored by the Nix bundler. Instead, it uses one generated with Nix.
+
+## Recommended Hyprland rules
+Here are my recommended rules for Hyprland
+```hyprlang
+decoration:blur {
+  brightness=0.5
+  contrast=0.8
+  enabled=true
+  noise=0.09
+  passes=4
+  size=16
+  vibrancy=0.8
+  vibrancy_darkness=0.8
+}
+
+# Included in the Home Manager module
+layerrule = blur, ^(ags-)(.*)$
+layerrule = ignorezero, ^(ags-)(.*)$
+layerrule = animation popin, ags-launcher
+layerrule = animation slide right, ags-wallpapers
+layerrule = order 1, ags-powerMenu
+```
 
 ## Other configs I took inspiration and code from
 To [matt1432](https://git.nelim.org/matt1432/nixos-configs)<br>

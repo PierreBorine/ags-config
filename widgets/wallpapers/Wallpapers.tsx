@@ -11,6 +11,7 @@ const cache_dir = GLib.get_user_cache_dir() + '/wallpapers-cache';
 const transitions = ['any', 'wipe'];
 const columnCount = 3;
 
+GLib.mkdir_with_parents(wallpapers_path, 0o755);
 GLib.mkdir_with_parents(cache_dir, 0o755);
 
 class File {
