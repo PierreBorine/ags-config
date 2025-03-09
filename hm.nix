@@ -13,11 +13,17 @@ self: {
 
   startAgs = pkgs.writeScript "start-ags" ''
     pkill -f '.${cfg.instanceName}-wrapped'
-    ${lib.getExe agsBundle}
+    ${lib.getExe cfg.package}
   '';
 in {
   options.ags-config = {
     enable = mkEnableOption "my Ags widgets config";
+
+    package = mkOption {
+      type = types.package;
+      default = agsBundle;
+      description = "Ags bundle to use";
+    };
 
     instanceName = mkOption {
       type = types.str;
