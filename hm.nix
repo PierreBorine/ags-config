@@ -4,17 +4,12 @@ self: {
   lib,
   ...
 }: let
-  inherit (lib) mkEnableOption mkOption mkIf types;
+  inherit (lib) mkEnableOption mkOption mkIf optionals types;
   cfg = config.ags-config;
 
   agsBundle = self.lib.mkWidgets {
     name = cfg.instanceName;
   };
-
-  startAgs = pkgs.writeScript "start-ags" ''
-    pkill -f '.${cfg.instanceName}-wrapped'
-    ${lib.getExe cfg.package}
-  '';
 in {
   options.ags-config = {
     enable = mkEnableOption "my Ags widgets config";
@@ -42,7 +37,7 @@ in {
     home.packages = [pkgs.ags];
     wayland.windowManager.hyprland = {
       settings = {
-        layerrule = mkIf cfg.hyprland.layerrules [
+        layerrule = optionals cfg.hyprland.layerrules [
           "blur, ^(ags-)(.*)$"
           "ignorezero, ^(ags-)(.*)$"
           "animation popin, ags-launcher"
@@ -51,9 +46,9 @@ in {
           "order 1, ags-powerMenu"
         ];
 
-        exec = mkIf cfg.hyprland.autoStart [startAgs];
+        exec = optionals cfg.hyprland.autoStart ["pkill ${cfg.instanceName} ; ${lib.getExe cfg.package}"];
 
-        bind = mkIf cfg.hyprland.binds [
+        bind = optionals cfg.hyprland.binds [
           "$mainMod, D, exec, ags toggle -i '${cfg.instanceName}' launcher #apps: Summon the app launcher"
           "$mainMod, M, exec, ags toggle -i '${cfg.instanceName}' ags-powerMenu #utilities: Open the power menu"
         ];
