@@ -14,6 +14,10 @@ window#wallpapers {
 
     .header {
       padding: 0 12px;
+
+      scrollbar {
+        background: transparent;
+      }
       button.pageBtn {
         background: transparent;
         box-shadow: $fluent-box;

@@ -7,7 +7,7 @@ import GLib from "gi://GLib";
 const { CENTER, FILL } = Gtk.Align;
 
 const wallpapers_path = GLib.get_home_dir() + '/Pictures/Wallpapers/images';
-const cache_dir = GLib.get_user_cache_dir() + '/wallpapers-cache';
+const cache_dir = GLib.get_user_cache_dir() + '/astal/wallpapers-cache';
 const transitions = ['any', 'wipe'];
 const columnCount = 3;
 
@@ -61,14 +61,14 @@ class Dir extends File {
 }
 
 function readFiles(path: string): string[] {
-    return exec(`bash -c "ls '${path}'"`)
+    return exec(`ls '${path}'`)
         .trim()
         .split("\n")
         .filter(p => p.trim() !== "" && !GLib.file_test(path + '/' + p, GLib.FileTest.IS_DIR));
 }
 
 function readDirs(path: string): string[] {
-    return exec(`bash -c "ls '${path}'"`)
+    return exec(`ls '${path}'`)
         .trim()
         .split("\n")
         .filter(p => p.trim() !== "" && GLib.file_test(path + '/' + p, GLib.FileTest.IS_DIR));
@@ -91,7 +91,11 @@ function updateWallpapers() {
     wallpapers_sum = new_sum;
 
     const subDirsFiles = readDirs(wallpapers_path);
-    const subDirs = wallpaper_dirs.get().filter(d => GLib.path_get_basename(wallpapers_path) !== d.name);
+    const subDirs = wallpaper_dirs.get().filter(d => {
+        const is_root = GLib.path_get_basename(wallpapers_path) === d.name;
+        const still_exists = GLib.file_test(wallpapers_path + '/' + d.name, GLib.FileTest.EXISTS);
+        return (!is_root && still_exists);
+    });
     // Handle removed sub-dirs
     subDirs.forEach((d, i) => {
         const still_exists = subDirsFiles.find(fname => fname === d.name);
@@ -161,12 +165,26 @@ const mkImage = (wall: Wallpaper) => {
                 className={"image"}
                 halign={FILL}
                 valign={FILL}
-                css={`
-                    background-image: url("${wall.thumbnail}");
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    background-position: center;
-                `}
+                setup={self => {
+                    let result = false;
+                    function applyThumbnailWithRetry(retry: number, timeout: number) {
+                        result = GLib.file_test(wall.thumbnail, GLib.FileTest.EXISTS);
+                        if (retry <= 0 || result) {
+                            self.css = `
+                                background-image: url("${wall.thumbnail}");
+                                background-size: cover;
+                                background-repeat: no-repeat;
+                                background-position: center;
+                            `;
+                            return;
+                        }
+
+                        setTimeout(() => {
+                            applyThumbnailWithRetry(retry - 1, timeout);
+                        }, timeout * 1000);
+                    }
+                    applyThumbnailWithRetry(2, 2);
+                }}
             />
         </button>
     );
