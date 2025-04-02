@@ -40,6 +40,7 @@ in {
         layerrule = optionals cfg.hyprland.layerrules [
           "blur, ^(ags-)(.*)$"
           "ignorezero, ^(ags-)(.*)$"
+          "xray 1, ^(ags-bar-)(.*)$"
           "animation popin, ags-launcher"
           "animation slide right, ags-wallpapers"
           # Put the power menu under the bar
