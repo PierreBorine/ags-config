@@ -17,7 +17,6 @@ const Workspace = ({ id = 0 }) => {
         >
             <eventbox
                 cursor="pointer"
-                tooltip_text={id.toString()}
 
                 onClickRelease={() => dispatchWorkspace(id.toString())}
             >
