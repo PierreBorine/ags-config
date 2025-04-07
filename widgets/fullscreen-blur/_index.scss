@@ -1,0 +1,5 @@
+@use '../shared' as *;
+
+window.full-blur {
+  .blur-btn { background-color: $bg-color }
+}

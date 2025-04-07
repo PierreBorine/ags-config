@@ -45,6 +45,10 @@ in {
           "animation slide right, ags-wallpapers"
           # Put the power menu under the bar
           "order 1, ags-powerMenu"
+
+          "blur, ags-full-blur"
+          "xray 1, ags-full-blur"
+          "animation fade, ags-full-blur"
         ];
 
         exec = optionals cfg.hyprland.autoStart ["pkill ${cfg.instanceName} ; ${lib.getExe cfg.package}"];

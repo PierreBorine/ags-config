@@ -8,6 +8,7 @@ import { instanceName, NIXSRC } from "./vars";
 
 import { exec } from "astal/process";
 import { monitorFile } from "astal/file";
+import FullBlur from "./widgets/fullscreen-blur/FullBlur";
 
 function updateCSS() {
     exec(["sass", `${SRC}/style.scss`, "/tmp/ags-style.css"]);
@@ -27,9 +28,21 @@ App.start({
     instanceName,
     css: style,
     icons: `${NIXSRC}/icons`,
+    requestHandler(request: string, res: (response: any) => void) {
+        if (request == "show blur") {
+            App.get_window("ags-full-blur")!.show()
+            return res("showing full blur")
+        }
+        if (request == "hide blur") {
+            App.get_window("ags-full-blur")!.hide()
+            return res("hiding full blur")
+        }
+        res("Unknown command")
+    },
     main() {
         App.get_monitors().map(Bar);
         Applauncher();
         Wallpapers();
+        FullBlur();
     },
 })
