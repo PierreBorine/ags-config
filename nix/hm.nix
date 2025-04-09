@@ -17,7 +17,8 @@ in {
     package = mkOption {
       type = types.package;
       default = agsBundle;
-      description = "Ags bundle to use";
+      description = "Ags bundle used";
+      readOnly = true;
     };
 
     instanceName = mkOption {

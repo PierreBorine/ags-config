@@ -18,73 +18,28 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
 
-    mkBundle = {
-      name,
-      src,
-      extraPackages,
-    }: let
-      varsTS = pkgs.writeText "vars.ts" ''
-        export const instanceName = "${name}";
-        export const NIXSRC = "$nixout/share";
-      '';
-    in
-      (ags.lib.bundle {
-        inherit pkgs name extraPackages;
-        src = src ++ [varsTS];
-        entry = "app.ts";
-      })
-      .overrideAttrs {
-        unpackPhase = ''
-          for srcFile in $src; do
-            cp -r $srcFile $(stripHash $srcFile)
-          done
-        '';
-        patchPhase = ''
-          sed -i "s/\$nixout/''${out//\//\\/}/g" vars.ts
-        '';
-      };
+    mkBundle = import ./nix/mkBundle.nix ags pkgs;
   in {
     lib = {
-      mkWidgets = {name ? "ags-widgets"}:
-        mkBundle {
-          inherit name;
-
-          src = [
-            ./icons
-            ./utils
-            ./widgets
-            ./app.ts
-            ./style.scss
-            ./tsconfig.json
-          ];
-
-          extraPackages = with ags.packages.${pkgs.system}; [
-            hyprland
-            tray
-            wireplumber
-            apps
-          ];
-        };
+      inherit mkBundle;
     };
 
     packages.${system} = {
-      widgets = self.lib.mkWidgets {};
+      widgets = self.lib.mkBundle {};
 
       # For `nix build` & `nix run`
-      default = self.lib.mkWidgets {name = "ags-widgets-test";};
+      default = self.lib.mkBundle {name = "ags-widgets-test";};
     };
 
     devShells.${system} = {
       default = pkgs.mkShell {
-        buildInputs = [
-          ags.packages.${pkgs.system}.agsFull
-        ];
+        buildInputs = [ags.packages.${pkgs.system}.agsFull];
       };
     };
 
     homeManagerModules = {
       default = self.homeManagerModules.ags-config;
-      ags-config = import ./hm.nix self;
+      ags-config = import ./nix/hm.nix self;
     };
   };
 }
