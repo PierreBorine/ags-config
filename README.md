@@ -33,8 +33,9 @@ My personal <a href="https://github.com/Aylur/ags">Ags</a>/<a href="https://gith
 <details>
 <summary>A wallpaper selector</summary>
 
-  - Right now, it only works with [swww](https://github.com/LGFae/swww), making it a requirement.<br>
+  - Right now, it only works with [swww](https://github.com/LGFae/swww), making it a requierment.<br>
   I plan to change that.
+  - `ffmpegthumbnailer` is also requierd for generating thumbnails.
   - Wallpapers have to be located in<br>
   `~/Pictures/Wallpapers/images`.
   - Only one level of sub-directories is supported.

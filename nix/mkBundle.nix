@@ -16,12 +16,14 @@ in
       ../tsconfig.json
     ];
     entry = "app.ts";
-    extraPackages = with ags.packages.${pkgs.system}; [
-      hyprland
-      tray
-      wireplumber
-      apps
-    ];
+    extraPackages = with ags.packages.${pkgs.system};
+      [
+        hyprland
+        tray
+        wireplumber
+        apps
+      ]
+      ++ [pkgs.ffmpegthumbnailer];
   })
   .overrideAttrs {
     unpackPhase = ''

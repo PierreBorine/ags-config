@@ -35,14 +35,16 @@ class Wallpaper extends File {
 
     constructor(path: string, name: string) {
         super(path, name);
-        this.thumbnail = cache_dir + this.fullPath.slice(wallpapers_path.length);
+
+        let thumbnail_old = cache_dir + this.fullPath.slice(wallpapers_path.length);
+        this.thumbnail = thumbnail_old.substr(0, thumbnail_old.lastIndexOf(".")) + ".jpeg";
         this.#genThumbnail();
     }
 
     async #genThumbnail() {
         if (!GLib.file_test(this.thumbnail, GLib.FileTest.EXISTS)) {
             GLib.mkdir_with_parents(GLib.path_get_dirname(this.thumbnail), 0o755);
-            execAsync(`magick "${this.fullPath}" -resize "640x360" "${this.thumbnail}"`).catch(e => print(e));
+            execAsync(`ffmpegthumbnailer -i "${this.fullPath}" -o "${this.thumbnail}" -s 640 -c jpeg`).catch(e => print(e));
         }
     }
 }
