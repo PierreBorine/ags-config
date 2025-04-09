@@ -255,7 +255,12 @@ export default function Wallpapers() {
             <eventbox widthRequest={width()} expand onClick={hide} />
             <box hexpand={false} vertical>
                 <eventbox heightRequest={100} onClick={hide} />
-                <box className="wallpapers" vertical spacing={8}>
+                <box
+                    className="wallpapers"
+                    vertical
+                    spacing={8}
+                    widthRequest={300}
+                >
                     <box
                         className="header"
                         spacing={8}>
