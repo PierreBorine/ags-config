@@ -7,7 +7,7 @@ self: {
   inherit (lib) mkEnableOption mkOption mkIf optionals types;
   cfg = config.ags-config;
 
-  agsBundle = self.lib.mkWidgets {
+  agsBundle = self.lib.mkBundle {
     name = cfg.instanceName;
   };
 in {
