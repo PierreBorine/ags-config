@@ -238,7 +238,7 @@ export default function Wallpapers() {
 
     return <window
         name="wallpapers"
-        namespace="ags-wallpapers"
+        namespace="astal-wallpapers"
         visible={false}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT}
         exclusivity={Astal.Exclusivity.IGNORE}

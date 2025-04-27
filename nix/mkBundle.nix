@@ -1,4 +1,4 @@
-ags: pkgs: ({name ? "ags-widgets"}: let
+ags: pkgs: ({name ? "astal-widgets"}: let
   varsTS = pkgs.writeText "vars.ts" ''
     export const instanceName = "${name}";
     export const NIXSRC = "$nixout/share";

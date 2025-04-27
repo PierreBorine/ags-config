@@ -110,11 +110,11 @@ decoration:blur {
 }
 
 # Included in the Home Manager module
-layerrule = blur, ^(ags-)(.*)$
-layerrule = ignorezero, ^(ags-)(.*)$
-layerrule = animation popin, ags-launcher
-layerrule = animation slide right, ags-wallpapers
-layerrule = order 1, ags-powerMenu
+layerrule = blur, ^(astal-)(.*)$
+layerrule = ignorezero, ^(astal-)(.*)$
+layerrule = animation popin, astal-launcher
+layerrule = animation slide right, astal-wallpapers
+layerrule = order 1, astal-powerMenu
 ```
 
 ## Other configs I took inspiration and code from

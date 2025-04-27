@@ -4,7 +4,7 @@ import { Separator } from "../../../utils/Astalified";
 const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor;
 
 function hide() {
-    App.get_window("ags-powerMenu")!.hide()
+    App.get_window("astal-powerMenu")!.hide()
 }
 
 function PowerMenu() {
@@ -16,8 +16,8 @@ function PowerMenu() {
     return (
         <window
             className="powerMenu"
-            name="ags-powerMenu"
-            namespace="ags-powerMenu"
+            name="astal-powerMenu"
+            namespace="astal-powerMenu"
             application={App}
             visible={false}
             keymode={Astal.Keymode.EXCLUSIVE}

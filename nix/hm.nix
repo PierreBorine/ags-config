@@ -23,7 +23,7 @@ in {
 
     instanceName = mkOption {
       type = types.str;
-      default = "ags-widgets";
+      default = "astal-widgets";
       description = "Name for the Astal instance";
     };
 
@@ -39,24 +39,24 @@ in {
     wayland.windowManager.hyprland = {
       settings = {
         layerrule = optionals cfg.hyprland.layerrules [
-          "blur, ^(ags-)(.*)$"
-          "ignorezero, ^(ags-)(.*)$"
-          "xray 1, ^(ags-bar-)(.*)$"
-          "animation popin, ags-launcher"
-          "animation slide right, ags-wallpapers"
+          "blur, ^(astal-)(.*)$"
+          "ignorezero, ^(astal-)(.*)$"
+          "xray 1, ^(astal-bar-)(.*)$"
+          "animation popin, astal-launcher"
+          "animation slide right, astal-wallpapers"
           # Put the power menu under the bar
-          "order 1, ags-powerMenu"
+          "order 1, astal-powerMenu"
 
-          "blur, ags-full-blur"
-          "xray 1, ags-full-blur"
-          "animation fade, ags-full-blur"
+          "blur, astal-full-blur"
+          "xray 1, astal-full-blur"
+          "animation fade, astal-full-blur"
         ];
 
         exec = optionals cfg.hyprland.autoStart ["pkill ${cfg.instanceName} ; ${lib.getExe cfg.package}"];
 
         bind = optionals cfg.hyprland.binds [
-          "$mainMod, D, exec, ags toggle -i '${cfg.instanceName}' launcher #apps: Summon the app launcher"
-          "$mainMod, M, exec, ags toggle -i '${cfg.instanceName}' ags-powerMenu #utilities: Open the power menu"
+          "$mainMod, D, exec, ags toggle -i '${cfg.instanceName}' astal-launcher #apps: Summon the app launcher"
+          "$mainMod, M, exec, ags toggle -i '${cfg.instanceName}' astal-powerMenu #utilities: Open the power menu"
         ];
       };
     };

@@ -5,7 +5,7 @@ import { Variable } from "astal"
 const MAX_ITEMS = 6
 
 function hide() {
-    App.get_window("launcher")!.hide()
+    App.get_window("astal-launcher")!.hide()
 }
 
 function AppButton({ app }: { app: Apps.Application }) {
@@ -45,8 +45,8 @@ export default function Applauncher() {
     }
 
     return <window
-        name="launcher"
-        namespace="ags-launcher"
+        name="astal-launcher"
+        namespace="astal-launcher"
         exclusivity={Astal.Exclusivity.IGNORE}
         keymode={Astal.Keymode.ON_DEMAND}
         application={App}

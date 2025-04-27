@@ -11,9 +11,9 @@ import { monitorFile } from "astal/file";
 import FullBlur from "./widgets/fullscreen-blur/FullBlur";
 
 function updateCSS() {
-    exec(["sass", `${SRC}/style.scss`, "/tmp/ags-style.css"]);
+    exec(["sass", `${SRC}/style.scss`, "/tmp/astal-style.css"]);
     App.reset_css();
-    App.apply_css("/tmp/ags-style.css");
+    App.apply_css("/tmp/astal-style.css");
 };
 
 if (SRC === NIXSRC) {
@@ -30,11 +30,11 @@ App.start({
     icons: `${NIXSRC}/icons`,
     requestHandler(request: string, res: (response: any) => void) {
         if (request == "show blur") {
-            App.get_window("ags-full-blur")!.show()
+            App.get_window("astal-full-blur")!.show()
             return res("showing full blur")
         }
         if (request == "hide blur") {
-            App.get_window("ags-full-blur")!.hide()
+            App.get_window("astal-full-blur")!.hide()
             return res("hiding full blur")
         }
         res("Unknown command")
