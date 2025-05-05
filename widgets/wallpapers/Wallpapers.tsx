@@ -145,19 +145,27 @@ const mkImage = (wall: Wallpaper) => {
             name={wall.name}
             tooltipText={wall.name}
             className="wallpaper"
-            onClicked={() => execAsync([
-                'swww',
-                'img',
-                '--transition-type',
-                transitions[Math.floor(Math.random()*transitions.length)],
-                '--transition-angle',
-                Math.floor(Math.random() * 360).toString(),
-                '--transition-fps',
-                '70',
-                wall.fullPath,
-                '--transition-duration',
-                '2'
-            ])}
+            onClicked={() => {
+                execAsync([
+                    'ln',
+                    '-sf',
+                    wall.fullPath,
+                    wallpapers_path + '/.selected'
+                ]);
+                execAsync([
+                    'swww',
+                    'img',
+                    '--transition-type',
+                    transitions[Math.floor(Math.random()*transitions.length)],
+                    '--transition-angle',
+                    Math.floor(Math.random() * 360).toString(),
+                    '--transition-fps',
+                    '70',
+                    wallpapers_path + '/.selected',
+                    '--transition-duration',
+                    '2'
+                ]);
+            }}
             widthRequest={250}
             heightRequest={150}
             halign={CENTER}
