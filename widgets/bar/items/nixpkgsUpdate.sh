@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i bash --pure
+#! nix-shell -i bash --impure
 #! nix-shell -p bash cacert curl jq xml2
 #! nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/ac35b104800bff9028425fec3b6e8a41de2bbfff.tar.gz
 
@@ -21,12 +21,12 @@ new_rev=$(echo "$commit_feed" \
 # Read the flake.lock file and extract the current nixpkgs revisions
 revs=$(jq -r '.nodes | with_entries(select(.key | test("nixpkgs_?[1-9]*\\d*"))) | .[] | .locked.rev' "$FLAKE/flake.lock")
 
-update_available="true"
-# Match the new revision with the ones in flake.lock
-if echo "$revs" | grep -q "^$new_rev$"; then
-  update_available="false"
-fi
-
 # "true" => update available
 # "false" => up-to-date
-echo $update_available
+
+# Match the new revision with the ones in flake.lock
+if echo "$revs" | grep -q "^$new_rev$"; then
+  echo "false"
+else
+  echo "true"
+fi
