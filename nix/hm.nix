@@ -42,7 +42,6 @@ in {
           "blur, ^(astal-)(.*)$"
           "ignorezero, ^(astal-)(.*)$"
           "xray 1, ^(astal-bar-)(.*)$"
-          "animation popin, astal-launcher"
           "animation slide right, astal-wallpapers"
           # Put the power menu under the bar
           "order 1, astal-powerMenu"
@@ -55,7 +54,6 @@ in {
         exec = optionals cfg.hyprland.autoStart ["pkill ${cfg.instanceName} ; ${lib.getExe cfg.package}"];
 
         bind = optionals cfg.hyprland.binds [
-          "$mainMod, D, exec, ags toggle -i '${cfg.instanceName}' astal-launcher #apps: Summon the app launcher"
           "$mainMod, M, exec, ags toggle -i '${cfg.instanceName}' astal-powerMenu #utilities: Open the power menu"
         ];
       };

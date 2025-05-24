@@ -25,12 +25,6 @@ My personal <a href="https://github.com/Aylur/ags">Ags</a>/<a href="https://gith
 
 </details>
 <details>
-<summary>An application launcher</summary>
-
-  - Default keybind to open is <kbd>$mainMod, d</kbd>
-
-</details>
-<details>
 <summary>A wallpaper selector</summary>
 
   - Right now, it only works with [swww](https://github.com/LGFae/swww), making it a requierment.<br>
