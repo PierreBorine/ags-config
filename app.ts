@@ -39,7 +39,7 @@ App.start({
     },
     main() {
         App.get_monitors().map(Bar);
-        Wallpapers();
         FullBlur();
+        Wallpapers();
     },
 })

@@ -313,7 +313,6 @@ export default function Wallpapers() {
                     </box>
                     <Separator />
                     <stack
-                        visibleChildName={currentPage(n => n + '-stack')}
                         transitionType={Gtk.StackTransitionType.SLIDE_LEFT_RIGHT}
                         heightRequest={800}
                         setup={self => {
@@ -331,6 +330,7 @@ export default function Wallpapers() {
 
                             updateAll(wallpaper_dirs.get());
                             wallpaper_dirs.subscribe(updateAll);
+                            currentPage.subscribe(n => self.visibleChildName = n + '-stack');
                         }}
                     />
                 </box>
