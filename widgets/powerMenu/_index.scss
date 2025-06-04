@@ -1,0 +1,175 @@
+@use '../shared' as *;
+@use "sass:color";
+
+window.PowerMenu {
+	border: none;
+	box-shadow: none;
+	color: $fg-color;
+	font-size: 1em;
+	font-weight: normal;
+	outline-color: transparent;
+
+	transition: 10ms;
+
+	box { margin: 4px; }
+
+	label { font-weight: normal; }
+
+	button {
+		outline-color: transparent;
+		&:focus {
+			border-color: transparent;
+			box-shadow: none;
+		}
+	}
+
+	viewport { border: none; }
+
+	.SysutilsContainer {
+		margin: 10px;
+		border: 1px solid transparent;
+		background: $bg-color;
+    border: $win-border;
+		border-radius: $border-radius;
+		min-width: 300px;
+		padding: 0;
+	}
+
+	.PowButtonsBox {
+		font-size: 24px;
+		margin: 10px 5px;
+
+    button {
+      transition: all .1s ease;
+      background: transparent;
+      box-shadow: $fluent-box;
+      border-radius: $border-radius-small;
+      margin: .2em;
+      padding: .6em .8em;
+
+      &:hover {
+        box-shadow: $fluent-box-hover;
+        margin: .05em .2em .2em .2em;
+        background: rgb(205, 63, 69);
+      }
+
+      &:active {
+        margin: .25em .2em .0em .2em;
+
+        icon {
+          -gtk-icon-transform: scale(0.95);
+        }
+      }
+    }
+	}
+
+	.AudioNBriteBox {
+    box-shadow: $fluent-box;
+		margin: 0 8px 5px 8px;
+		border-radius: $border-radius-small;
+	}
+
+	.slider {
+		padding: 0 0 0px 8px;
+		margin: 0 4px 0 4px;
+
+		trough {
+			background-color: color.adjust($fg-color, $alpha: -0.8);
+			border-radius: $border-radius-small;
+		}
+
+		highlight {
+			min-height: 0.5em;
+			border-radius: $border-radius-small;
+		}
+
+		slider {
+			background-color: transparent;
+			box-shadow: none;
+		}
+	}
+
+	.AudioButton {
+		background-color: transparent;
+		padding: 2px 0 2px 0;
+		margin: 0;
+
+		&:hover {
+			-gtk-icon-shadow:
+				0 0 5px color.adjust($fg-color, $alpha: -0.77),
+				0 0 10px color.adjust($fg-color, $alpha: -0.77);
+		}
+	}
+
+	.ControlButton {
+		background-color: color.adjust($fg-color, $alpha: -0.91);
+		margin: 0 6px 6px 4px;
+		border-radius: $border-radius-small;
+		font-weight: normal;
+		padding: 4px 6px 4px 6px;
+	}
+
+	.ControlButtonEnabled {
+		background-color: color.adjust($fg-color, $alpha: -0.91);
+		margin: 0 0 6px 4px;
+		border-radius: $border-radius-small 0 0 $border-radius-small;
+		font-weight: normal;
+		/* min-width: 128px; */
+		padding: 4px 6px 4px 6px;
+	}
+
+	.SysUtilsMenuButton {
+		padding: 2px 5px 2px 5px;
+		border-radius: $border-radius-small;
+		background-color: color.adjust($fg-color, $alpha: -0.93);
+		margin: 0 0 0 4px;
+
+		&:hover {
+			background-color: color.adjust($fg-color, $alpha: -0.87);
+		}
+	}
+
+	.SysUtilsMenuTogglebutton {
+		padding: 4px;
+		background-color: color.adjust($fg-color, $alpha: -0.88);
+		margin: 0 0 0 4px;
+
+		&:checked {
+			background-color: #55B5DB; /* eww, hardcoded accent color */
+		}
+	}
+
+	.SysUtilsMenuScrollableBox {
+		/* min-height: 150px; */
+	}
+
+	.SysUtilsMenuChoiceButton {
+		font-size: 0.9em;
+		padding: 0px 5px 0px 5px;
+		border-radius: $border-radius-small - 3px;
+		background-color: color.adjust($fg-color, $alpha: -0.95);
+		margin: 0 0 4px 0;
+
+		&:hover {
+			background-color: color.adjust($fg-color, $alpha: -0.93);
+		}
+	}
+
+	.SysUtilsMenuContainer {
+    border-radius: $border-radius-small;
+  }
+	.SysUtilsMenuContainerTop {
+		border-radius: 0 $border-radius-small $border-radius-small $border-radius-small;
+	}
+	.SysUtilsMenuContainerBottom {
+		border-radius: $border-radius-small $border-radius-small $border-radius-small 0;
+	}
+
+  .SysUtilsMenuContainer,
+  .SysUtilsMenuContainerTop,
+  .SysUtilsMenuContainerBottom {
+		background-color: color.adjust($fg-color, $alpha: -0.91);
+    /* box-shadow: $fluent-box; */
+		margin: 4px 8px 10px 0;
+  }
+}

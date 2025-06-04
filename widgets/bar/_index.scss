@@ -70,61 +70,30 @@ window.bar {
   }
 }
 
-window.powerMenu {
-  .popup {
-    background-color: $bg-color;
-    border: $win-border;
-    border-top: none;
-    border-radius: 0 0 $border-radius $border-radius;
-    padding: 12px;
-
-    .logout-menu {
-      button {
-        transition: all .1s ease;
-        background: transparent;
-        box-shadow: $fluent-box;
-        border-radius: $border-radius-small;
-        margin: .2em;
-        padding: .6em .8em;
-
-        &:hover {
-          box-shadow: $fluent-box-hover;
-          margin: .1em .2em .35em .2em;
-          background: rgb(205, 63, 69);
-        }
-
-        &:active {
-          margin: .25em .2em .15em .2em;
-
-          icon {
-            -gtk-icon-transform: scale(0.95);
-          }
-        }
-      }
-    }
-
-    .utils {
-      button {
-        transition: all .1s ease;
-        background: transparent;
-        box-shadow: $fluent-box;
-        border-radius: $border-radius-small;
-        margin: .2em;
-        padding: .5em .8em;
-
-        &:hover {
-          box-shadow: $fluent-box-hover;
-          margin: .1em .2em .35em .2em;
-        }
-
-        &:active {
-          margin: .25em .2em .15em .2em;
-
-          icon {
-            -gtk-icon-transform: scale(0.95);
-          }
-        }
-      }
-    }
-  }
-}
+/* window.powerMenu { */
+/*   .popup { */
+/*     .utils { */
+/*       button { */
+/*         transition: all .1s ease; */
+/*         background: transparent; */
+/*         box-shadow: $fluent-box; */
+/*         border-radius: $border-radius-small; */
+/*         margin: .2em; */
+/*         padding: .5em .8em; */
+/**/
+/*         &:hover { */
+/*           box-shadow: $fluent-box-hover; */
+/*           margin: .1em .2em .35em .2em; */
+/*         } */
+/**/
+/*         &:active { */
+/*           margin: .25em .2em .15em .2em; */
+/**/
+/*           icon { */
+/*             -gtk-icon-transform: scale(0.95); */
+/*           } */
+/*         } */
+/*       } */
+/*     } */
+/*   } */
+/* } */

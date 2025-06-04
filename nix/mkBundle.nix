@@ -9,6 +9,7 @@ in
     src = [
       varsTS
       ../icons
+      ../services
       ../utils
       ../widgets
       ../app.ts
@@ -22,6 +23,7 @@ in
         tray
         wireplumber
         apps
+        bluetooth
       ]
       ++ [pkgs.ffmpegthumbnailer];
   })

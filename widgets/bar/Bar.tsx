@@ -2,10 +2,9 @@ import { App, Astal, Gtk, Gdk } from "astal/gtk3";
 
 import Clock from "./items/clock";
 import Workspaces from "./items/workspaces";
-import Volume from "./items/volume";
 import UpdateIcon from "./items/updateIcon";
 import Tray from "./items/tray";
-import PowerMenu from "./items/powerMenu";
+import PowerMenuBtn from '../powerMenu/PowerMenu';
 
 const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
 
@@ -44,8 +43,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
                     halign={Gtk.Align.END}>
                     <Tray />
                     <UpdateIcon />
-                    <Volume />
-                    <PowerMenu />
+                    <PowerMenuBtn />
                 </box>} />
         </eventbox>
     </window>

@@ -1,4 +1,4 @@
-import {Variable} from "astal";
+import { Variable } from "astal";
 
 const date = Variable("").poll(30000, 'date "+%e/%m/%Y"'); // 30s
 const time = Variable("").poll(1000, 'date "+%H:%M"'); // 1s
