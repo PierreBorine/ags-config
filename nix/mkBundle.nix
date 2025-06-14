@@ -25,7 +25,10 @@ in
         apps
         bluetooth
       ]
-      ++ [pkgs.ffmpegthumbnailer];
+      ++ [
+        pkgs.ffmpegthumbnailer
+        (pkgs.callPackage ./updateChecker.nix {})
+      ];
   })
   .overrideAttrs {
     unpackPhase = ''

@@ -1,30 +1,50 @@
 import GLib from "gi://GLib";
 import { Variable, bind } from "astal";
-import { exec } from "astal/process";
-
-import { NIXSRC } from "../../../vars";
 
 export default () => {
-    const update = Variable("false");
+    const time = Variable(0).poll(1000, 'date "+%s"', (out: string) => parseInt(out));
+    const update = Variable({
+        is_outdated: false,
+        commit_date: 0
+    });
 
     // 1. Test if FLAKE env var is set
-    if (GLib.getenv("FLAKE")) {
+    const FLAKE = GLib.getenv("FLAKE");
+    if (FLAKE) {
         print("nixpkgs check: $FLAKE is set");
         // 2. Test if flake.lock exists
-        if (exec('bash -c "[ -f "$FLAKE/flake.lock" ] && echo true"') === 'true') {
+        if (GLib.file_test(FLAKE + '/flake.lock', GLib.FileTest.EXISTS)) {
             print("nixpkgs check: flake.lock exists");
-            // 1800000 == 30*1000*60 == 30 min
-            update.poll(1800000, `${NIXSRC}/widgets/bar/items/nixpkgsUpdate.sh`);
-        } else {print("nixpkgs check: $FLAKE/flake.lock doesn't exist")}
-    } else {print("nixpkgs check: $FLAKE is not set")}
+            print("nixpkgs check: checking for updates...");
+            update.poll(
+                1800000, // 30 minutes
+                ["nixpkgs-update-checker", `nixos-unstable`],
+                (out: string) => JSON.parse(out)
+            );
+        } else print("nixpkgs check: $FLAKE/flake.lock doesn't exist")
+    } else print("nixpkgs check: $FLAKE is not set")
 
     return (
         <button
             className="update"
-            tooltipText="A nixpkgs update is available"
-            visible={bind(update).as(t => {
-                print(`nixpkgs check: checking for updates, got : ${t}`);
-                return t == "true";
+            tooltipText={bind(time).as(t => {
+                const ts = t - update.get().commit_date;
+                if (isNaN(ts)) return "A nixpkgs update is available";
+                let since = "";
+                if (ts < 60) { // For less than a minute
+                    since = `${ts} seconds`;
+                } else if (ts < 3600) { // For less than an houre
+                    since = `${Math.floor(ts/60)} minutes and ${ts % 60} seconds`;
+                } else if (ts < 86400) { // For less than a day
+                    since = `${Math.floor(ts/3600)} hours and ${Math.floor((ts % 3600) / 60)} minutes`;
+                } else if (ts < 172800) { // For less than two days
+                    since = `a day and ${Math.floor(ts/3600)} hours`;
+                } else since = `${Math.floor(ts/86400)} day(s)`;
+                return `A nixpkgs update is available since ${since}`
+            })}
+            visible={bind(update).as(json => {
+                print(`nixpkgs check: checked for updates, got : ${json.is_outdated}`);
+                return json.is_outdated;
             })}>
             <icon icon="software-update-available-symbolic" />
         </button>

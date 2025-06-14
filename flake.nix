@@ -25,6 +25,8 @@
     };
 
     packages.${system} = {
+      nixpkgs-update-checker = pkgs.callPackage ./nix/updateChecker.nix {};
+
       widgets = self.lib.mkBundle {};
 
       # For `nix build` & `nix run`
@@ -33,7 +35,10 @@
 
     devShells.${system} = {
       default = pkgs.mkShell {
-        buildInputs = [ags.packages.${pkgs.system}.agsFull];
+        buildInputs = [
+          ags.packages.${pkgs.system}.agsFull
+          self.packages.${system}.nixpkgs-update-checker
+        ];
       };
     };
 
