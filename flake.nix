@@ -30,7 +30,7 @@
       widgets = self.lib.mkBundle {};
 
       # For `nix build` & `nix run`
-      default = self.lib.mkBundle {name = "ags-widgets-test";};
+      default = self.lib.mkBundle {name = "astal-widgets-test";};
     };
 
     devShells.${system} = {
