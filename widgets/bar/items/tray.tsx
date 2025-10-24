@@ -16,7 +16,7 @@ const TrayItem = (item: AstalTray.TrayItem) => {
             revealChild={false}
         >
             <menubutton
-                className="tray-item"
+                class="tray-item"
                 cursor="pointer"
 
                 usePopover={false}
@@ -37,7 +37,7 @@ export default () => {
 
     return (
         <box
-            className="bar-item system-tray"
+            class="bar-item system-tray"
             visible={bind(tray, 'items').as((items) => items.length !== 0)}
             setup={(self) => {
                 self

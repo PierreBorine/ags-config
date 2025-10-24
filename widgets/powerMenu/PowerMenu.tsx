@@ -19,7 +19,7 @@ const execClose = (command: string[]) => {
 
 function PowButtons() {
 	return (
-		<box hexpand halign={Gtk.Align.END} className="PowButtonsBox">
+		<box hexpand halign={Gtk.Align.END} class="PowButtonsBox">
 			<button tooltipText="Shutdown" onClicked={() => execClose(["systemctl", "poweroff"])}>
 					<icon icon="system-shutdown-symbolic" />
 			</button>
@@ -70,10 +70,10 @@ function AudioNBrite() {
 	);
 
 	return (
-		<box vertical className="AudioNBriteBox">
-			<box className="slider">
+		<box vertical class="AudioNBriteBox">
+			<box class="slider">
 				<button
-					className="AudioButton"
+					class="AudioButton"
 					onClick={() => speaker.mute = !speaker.mute}
 					onDestroy={() => speakerIconBinding.drop()}
 				>
@@ -85,9 +85,9 @@ function AudioNBrite() {
 					value={bind(speaker, "volume")}
 				/>
 			</box>
-			<box className="slider">
+			<box class="slider">
 				<button
-					className="AudioButton"
+					class="AudioButton"
 					onClick={() => {
 						mic.mute = !mic.mute;
 					}}
@@ -114,7 +114,7 @@ function ControlCenter() {
 		<box heightRequest={300}>
 			<box vertical css="margin: 4px 0 4px 4px;">
 				<button
-					className={bind(menu, "bluetooth_menu_class")}
+					class={bind(menu, "bluetooth_menu_class")}
 					onClick={() => {
 						menu.menu_state = "bluetooth-menu";
 					}}
@@ -122,7 +122,7 @@ function ControlCenter() {
 					<box><icon icon="bluetooth-symbolic"/></box>
 				</button>
 				<button
-					className={bind(menu, "playback_menu_class")}
+					class={bind(menu, "playback_menu_class")}
 					onClick={() => {
 						menu.menu_state = "playback-menu";
 					}}
@@ -130,7 +130,7 @@ function ControlCenter() {
 					<box><icon icon="audio-speakers-symbolic"/></box>
 				</button>
 				<button
-					className={bind(menu, "audio_devices_menu_class")}
+					class={bind(menu, "audio_devices_menu_class")}
 					onClick={() => {
 						menu.menu_state = "audio-devices-menu";
 					}}
@@ -145,7 +145,7 @@ function ControlCenter() {
 				transitionType={Gtk.StackTransitionType.SLIDE_UP_DOWN}
 				setup={self => {
 					const topContainer = self.get_children()[0];
-					topContainer.className = `${topContainer.className} SysUtilsMenuContainerTop`;
+					topContainer.class = `${topContainer.class} SysUtilsMenuContainerTop`;
 				}}
 			>
 				<BluetoothMenu />
@@ -164,7 +164,7 @@ function PowerMenu() {
 
 	return (
 		<window
-			className="PowerMenu"
+			class="PowerMenu"
 			name="astal-PowerMenu"
 			namespace="astal-powerMenu"
 			application={App}
@@ -199,7 +199,7 @@ function PowerMenu() {
 				<CenterBox name="vis" css="margin: 0px;" vertical>
 					<box
 						vertical
-						className="SysutilsContainer"
+						class="SysutilsContainer"
 						halign={Gtk.Align.END}
 						valign={Gtk.Align.START}
 					>
@@ -219,7 +219,7 @@ export default function PowerButton() {
     return (
         <button
             onClicked={() => _powerMenu.visible = !_powerMenu.visible}
-            className="powerMenuButton"
+            class="powerMenuButton"
             tooltipText="Power Menu">
             <icon icon="nix-snowflake-white-symbolic" />
         </button>

@@ -17,7 +17,7 @@ export const DeviceControls = ({
 		<box
 			css="margin: 0px;"
 			valign={Gtk.Align.START}
-			className={"bluetooth-controls"}
+			class={"bluetooth-controls"}
 		>
 			<PairButton device={device} />
 			<ConnectButton device={device} />

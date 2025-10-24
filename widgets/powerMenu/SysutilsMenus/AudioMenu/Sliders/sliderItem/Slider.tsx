@@ -3,7 +3,7 @@ import AstalWp from "gi://AstalWp";
 
 export const Slider = ({ device, type }: SliderProps): JSX.Element => {
 	return (
-		<box className="slider" css="margin: 0 4px 8px 4px; padding: 0;">
+		<box class="slider" css="margin: 0 4px 8px 4px; padding: 0;">
 			<slider
 				value={bind(device, "volume")}
 				drawValue={false}

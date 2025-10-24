@@ -5,7 +5,7 @@ import AstalWp from 'gi://AstalWp?version=0.1';
 export const SliderPercentage = ({ type, device }: SliderPercentageProps): JSX.Element => {
     return (
         <label
-            className={`menu-active-percentage ${type}`}
+            class={`menu-active-percentage ${type}`}
             valign={Gtk.Align.END}
             label={bind(device, 'volume').as((vol) => `${Math.round(vol * 100)}%`)}
         />

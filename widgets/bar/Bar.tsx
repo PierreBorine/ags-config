@@ -15,7 +15,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
     return <window
         name='astal-bar'
         namespace={`astal-bar-${getMonitorIndex(gdkmonitor)}`}
-        className='bar'
+        class='bar'
         gdkmonitor={gdkmonitor}
         margin={0}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
@@ -25,20 +25,20 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             onScroll={(_, e) => dispatchWorkspace(e.delta_y > 0 ? 'e+1' : 'e-1')}>
             <centerbox
                 startWidget={<box
-                    className="left"
+                    class="left"
                     spacing={8}
                     halign={Gtk.Align.START}>
                     <Workspaces />
                 </box>}
 
                 centerWidget={<box
-                    className="center"
+                    class="center"
                     spacing={8}>
                     <Clock />
                 </box>}
 
                 endWidget={<box
-                    className="end"
+                    class="end"
                     spacing={8}
                     halign={Gtk.Align.END}>
                     <Tray />

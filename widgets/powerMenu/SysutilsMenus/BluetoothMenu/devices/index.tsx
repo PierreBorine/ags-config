@@ -45,8 +45,8 @@ export const BluetoothDevices = (): JSX.Element => {
 				deviceListBinding.drop();
 			}}
 		>
-			<scrollable vexpand className="SysUtilsMenuScrollableBox">
-				<box css="margin: 2px;" className={"menu-content"} vertical>
+			<scrollable vexpand class="SysUtilsMenuScrollableBox">
+				<box css="margin: 2px;" class={"menu-content"} vertical>
 					{deviceListBinding()}
 				</box>
 			</scrollable>

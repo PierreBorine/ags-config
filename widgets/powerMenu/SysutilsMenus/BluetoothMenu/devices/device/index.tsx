@@ -17,7 +17,7 @@ export const BluetoothDevice = ({
 			<revealer revealChild={bind(device, "connecting")}>
 				{/* <Spinner
 					valign={Gtk.Align.START}
-					className="spinner bluetooth"
+					class="spinner bluetooth"
 				/> */}
 			</revealer>
 		);
@@ -26,7 +26,7 @@ export const BluetoothDevice = ({
 	return (
 		<button
 			hexpand
-			className="SysUtilsMenuChoiceButton"
+			class="SysUtilsMenuChoiceButton"
 			onClick={(_, event) => {
 				if (
 					!connectedDevices.includes(device.address) &&
@@ -43,7 +43,7 @@ export const BluetoothDevice = ({
 					css="margin: 0px;"
 					hexpand
 					halign={Gtk.Align.START}
-					className="menu-button-container"
+					class="menu-button-container"
 				>
 					<DeviceIcon
 						device={device}

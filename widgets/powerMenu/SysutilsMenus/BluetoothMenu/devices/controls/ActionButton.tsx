@@ -8,9 +8,9 @@ export const ActionButton = ({
 	...props
 }: ActionButtonProps): JSX.Element => {
 	return (
-		<button className={`SysUtilsMenuChoiceButton ${name}`} {...props}>
+		<button class={`SysUtilsMenuChoiceButton ${name}`} {...props}>
 			<label
-				className={`menu-icon-button-label ${name} bluetooth txt-icon`}
+				class={`menu-icon-button-label ${name} bluetooth txt-icon`}
 				tooltipText={tooltipText}
 				label={label}
 			/>

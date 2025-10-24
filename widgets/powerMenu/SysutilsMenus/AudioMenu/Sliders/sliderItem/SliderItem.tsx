@@ -4,7 +4,7 @@ import { Slider } from "./Slider";
 
 export const SliderItem = ({ type, device }: SliderItemProps): JSX.Element => {
 	return (
-		<box className={`SysUtilsMenuChoiceButton ${type}`} vertical>
+		<box class={`SysUtilsMenuChoiceButton ${type}`} vertical>
 			<SliderIcon type={type} device={device} />
 			<Slider type={type} device={device} />
 		</box>

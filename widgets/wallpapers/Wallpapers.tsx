@@ -144,7 +144,7 @@ const mkImage = (wall: Wallpaper) => {
         <button
             name={wall.name}
             tooltipText={wall.name}
-            className="wallpaper"
+            class="wallpaper"
             onClicked={() => {
                 execAsync([
                     'ln',
@@ -172,7 +172,7 @@ const mkImage = (wall: Wallpaper) => {
             valign={CENTER}
         >
             <box
-                className={"image"}
+                class={"image"}
                 halign={FILL}
                 valign={FILL}
                 setup={self => {
@@ -204,7 +204,7 @@ const mkPageBtn = (dirName: string) => {
     return (
         <button
             name={dirName}
-            className="pageBtn"
+            class="pageBtn"
             onClick={() => currentPage.set(dirName)}
             label={dirName}
         />
@@ -215,7 +215,7 @@ const mkPage = (dirName: string, childs: Wallpaper[]) => {
     return (
         <scrollable
             name={dirName + '-stack'}
-            className="page"
+            class="page"
             hscroll={Gtk.PolicyType.NEVER}
             halign={FILL}
             valign={FILL}
@@ -264,13 +264,13 @@ export default function Wallpapers() {
             <box hexpand={false} vertical>
                 <eventbox heightRequest={100} onClick={hide} />
                 <box
-                    className="wallpapers"
+                    class="wallpapers"
                     vertical
                     spacing={8}
                     widthRequest={300}
                 >
                     <box
-                        className="header"
+                        class="header"
                         spacing={8}>
                         <scrollable
                             vscroll={Gtk.PolicyType.NEVER}
@@ -297,7 +297,7 @@ export default function Wallpapers() {
                             </box>
                         </scrollable>
                         <box
-                            className="reload">
+                            class="reload">
                             <button
                                 visible={refreshing(state => !state)}
                                 child={<icon icon="update-symbolic"/>}

@@ -8,7 +8,7 @@ import { SliderItem } from "../sliderItem/SliderItem";
 const NoStreams = (): JSX.Element => {
 	return (
 		<label
-			className={"no-playbacks dim"}
+			class={"no-playbacks dim"}
 			label={"No active playbacks found."}
 			expand
 		/>
@@ -17,7 +17,7 @@ const NoStreams = (): JSX.Element => {
 
 export const ActivePlaybacks = (): JSX.Element => {
 	return (
-		<scrollable className="SysUtilsMenuScrollableBox" vexpand>
+		<scrollable class="SysUtilsMenuScrollableBox" vexpand>
 			<box vertical>
 				{bind(audioService, "streams").as((streams) => {
 					if (!streams || streams.length === 0) {

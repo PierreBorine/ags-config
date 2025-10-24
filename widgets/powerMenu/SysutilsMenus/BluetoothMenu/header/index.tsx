@@ -6,7 +6,7 @@ export const Header = (): JSX.Element => {
 	const MenuLabel = (): JSX.Element => {
 		return (
 			<label
-				className="menu-label"
+				class="menu-label"
 				valign={Gtk.Align.CENTER}
 				halign={Gtk.Align.START}
 				hexpand

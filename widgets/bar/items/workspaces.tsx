@@ -13,7 +13,7 @@ const Workspace = ({ id = 0 }) => {
         <revealer
             name={id.toString()}
             transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
-            className="workspace"
+            class="workspace"
         >
             <eventbox
                 cursor="pointer"
@@ -22,7 +22,7 @@ const Workspace = ({ id = 0 }) => {
             >
                 <centerbox
                     valign={Gtk.Align.CENTER}
-                    className="button"
+                    class="button"
                     centerWidget={<label label={id.toString()} />}
                 />
             </eventbox>
@@ -50,7 +50,7 @@ export default () => {
 
     const highlight = (
         <box
-            className="button active"
+            class="button active"
 
             valign={Gtk.Align.CENTER}
             halign={Gtk.Align.START}
@@ -65,7 +65,7 @@ export default () => {
 
     return (
         <box
-            className="bar-item workspaces"
+            class="bar-item workspaces"
         >
             <overlay
                 passThrough

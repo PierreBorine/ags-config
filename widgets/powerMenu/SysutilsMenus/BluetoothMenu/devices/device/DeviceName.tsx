@@ -7,7 +7,7 @@ export const DeviceName = ({ device }: DeviceNameProps): JSX.Element => {
         <label
             valign={Gtk.Align.CENTER}
             halign={Gtk.Align.START}
-            className="menu-button-name bluetooth"
+            class="menu-button-name bluetooth"
             truncate
             wrap
             label={bind(device, 'alias')}

@@ -26,7 +26,7 @@ export default () => {
 
     return (
         <button
-            className="update"
+            class="update"
             tooltipText={bind(time).as(t => {
                 const ts = t - update.get().commit_date;
                 if (isNaN(ts)) return "A nixpkgs update is available";

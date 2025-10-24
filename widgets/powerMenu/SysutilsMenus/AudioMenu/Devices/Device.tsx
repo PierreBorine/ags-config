@@ -8,7 +8,7 @@ const isPrimaryClick = (event: Astal.ClickEvent): boolean =>
 const DeviceIcon = ({ device, type, icon }: AudioDeviceProps): JSX.Element => {
 	return (
 		<label
-			className={bind(device, "isDefault").as((isDefault) => {
+			class={bind(device, "isDefault").as((isDefault) => {
 				return `menu-button-icon ${isDefault ? "active" : ""} ${type} txt-icon`;
 			})}
 			label={`${icon} `}
@@ -24,7 +24,7 @@ const DeviceName = ({
 		<label
 			truncate
 			wrap
-			className={bind(device, "description").as((currentDesc) =>
+			class={bind(device, "description").as((currentDesc) =>
 				device.description === currentDesc
 					? `menu-button-name active ${type}`
 					: `menu-button-name ${type}`,
@@ -41,7 +41,7 @@ export const AudioDevice = ({
 }: AudioDeviceProps): JSX.Element => {
 	return (
 		<button
-			className="SysUtilsMenuChoiceButton"
+			class="SysUtilsMenuChoiceButton"
 			onClick={(_, event) => {
 				if (isPrimaryClick(event)) {
 					device.set_is_default(true);

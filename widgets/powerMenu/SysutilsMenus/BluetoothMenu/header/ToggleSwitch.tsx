@@ -12,7 +12,7 @@ Variable.derive([bind(bluetoothService, "isPowered")], (isOn) => {
 
 export const ToggleSwitch = (): JSX.Element => (
 	<switch
-		className="SysUtilsMenuTogglebutton"
+		class="SysUtilsMenuTogglebutton"
 		valign={Gtk.Align.CENTER}
 		active={bluetoothService.isPowered}
 		setup={(self) => {

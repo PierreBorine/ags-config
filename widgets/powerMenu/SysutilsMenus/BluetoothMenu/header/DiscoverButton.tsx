@@ -10,7 +10,7 @@ const bluetoothService = AstalBluetooth.get_default();
 
 export const DiscoverButton = (): JSX.Element => (
 	<button
-		className="SysUtilsMenuButton"
+		class="SysUtilsMenuButton"
 		halign={Gtk.Align.END}
 		valign={Gtk.Align.CENTER}
 		onClick={(_, self) => {
@@ -33,7 +33,7 @@ export const DiscoverButton = (): JSX.Element => (
 		}}
 	>
 		<icon
-			className={bind(isDiscovering).as((isDiscovering) =>
+			class={bind(isDiscovering).as((isDiscovering) =>
 				isDiscovering ? "spinning-icon" : "",
 			)}
 			icon="view-refresh-symbolic"

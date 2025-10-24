@@ -23,7 +23,7 @@ export const SliderIcon = ({ type, device }: SliderIconProps): JSX.Element => {
 	return (
 		<box>
 			<button
-				className={bind(device, "mute").as(
+				class={bind(device, "mute").as(
 					(isMuted) => `AudioButton ${type} ${isMuted ? "muted" : ""}`,
 				)}
 				onClick={(_, event) => {
@@ -35,10 +35,10 @@ export const SliderIcon = ({ type, device }: SliderIconProps): JSX.Element => {
 					iconBinding.drop();
 				}}
 			>
-				<icon className={`menu-active-icon ${type}`} icon={iconBinding()} />
+				<icon class={`menu-active-icon ${type}`} icon={iconBinding()} />
 			</button>
 			<label
-				className={`menu-active ${type}`}
+				class={`menu-active ${type}`}
 				truncate
 				hexpand
 				wrap

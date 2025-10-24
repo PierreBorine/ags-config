@@ -5,7 +5,7 @@ import { Gtk } from "astal/gtk3";
 export const BluetoothMenu = () => {
 	return (
 		<box
-			className="SysUtilsMenuContainer"
+			class="SysUtilsMenuContainer"
 			name="bluetooth-menu"
 			halign={Gtk.Align.FILL}
 			hexpand

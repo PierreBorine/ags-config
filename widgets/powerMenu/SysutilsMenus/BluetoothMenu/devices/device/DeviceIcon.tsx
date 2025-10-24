@@ -7,7 +7,7 @@ export const DeviceIcon = ({ device, connectedDevices }: DeviceIconProps): JSX.E
     return (
         <label
             valign={Gtk.Align.START}
-            className={bind(device, 'address').as(
+            class={bind(device, 'address').as(
                 (address) =>
                     `menu-button-icon bluetooth ${connectedDevices.includes(address) ? 'active' : ''} txt-icon`,
             )}
