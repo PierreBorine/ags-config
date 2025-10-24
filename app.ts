@@ -1,12 +1,12 @@
-import { App } from "astal/gtk3";
+import App from "ags/gtk3/app"
 import style from "./style.scss";
 import Bar from "./widgets/bar/Bar";
 import Wallpapers from "./widgets/wallpapers/Wallpapers";
 
 import { instanceName, NIXSRC } from "./vars";
 
-import { exec } from "astal/process";
-import { monitorFile } from "astal/file";
+import { exec } from "ags/process";
+import { monitorFile } from "ags/file";
 
 function updateCSS() {
     exec(["sass", `${SRC}/style.scss`, "/tmp/astal-style.css"]);
