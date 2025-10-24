@@ -18,11 +18,73 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
 
-    mkBundle = import ./nix/mkBundle.nix ags pkgs;
+    astalPackages = with ags.packages.${system}; [
+      io
+      astal3 # or astal4 for gtk4
+      # notifd apps
+      hyprland
+      tray
+      wireplumber
+      bluetooth
+    ];
+
+    extraPackages =
+      astalPackages
+      ++ [
+        pkgs.libadwaita
+        pkgs.libsoup_3
+        pkgs.ffmpegthumbnailer
+        self.packages.${system}.nixpkgs-update-checker
+      ];
   in {
-    lib = {
-      inherit mkBundle;
-    };
+    lib.mkBundle = {name ? "astal-widgets"}: let
+      varsTS = pkgs.writeText "vars.ts" ''
+        export const instanceName = "${name}";
+        export const NIXSRC = "$nixout/share";
+      '';
+    in
+      pkgs.stdenv.mkDerivation {
+        inherit name;
+
+        src = [
+          varsTS
+          ./icons
+          ./services
+          ./utils
+          ./widgets
+          ./app.ts
+          ./style.scss
+          ./tsconfig.json
+        ];
+
+        nativeBuildInputs = with pkgs; [
+          wrapGAppsHook
+          gobject-introspection
+          ags.packages.${system}.default
+        ];
+
+        buildInputs = extraPackages ++ [pkgs.gjs];
+
+        unpackPhase = ''
+          for srcFile in $src; do
+            cp -r $srcFile $(stripHash $srcFile)
+          done
+        '';
+        patchPhase = ''
+          sed -i "s/\$nixout/''${out//\//\\/}/g" vars.ts
+        '';
+
+        installPhase = ''
+          runHook preInstall
+
+          mkdir -p $out/bin
+          mkdir -p $out/share
+          cp -r * $out/share
+          ags bundle app.ts $out/bin/${name} -d "SRC='$out/share'"
+
+          runHook postInstall
+        '';
+      };
 
     packages.${system} = {
       nixpkgs-update-checker = pkgs.callPackage ./nix/updateChecker.nix {};
@@ -36,7 +98,7 @@
     devShells.${system} = {
       default = pkgs.mkShell {
         buildInputs = [
-          ags.packages.${pkgs.system}.agsFull
+          (ags.packages.${system}.default.override {inherit extraPackages;})
           self.packages.${system}.nixpkgs-update-checker
         ];
       };
