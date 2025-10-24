@@ -45,10 +45,6 @@ in {
           "animation slide right, astal-wallpapers"
           # Put the power menu under the bar
           "order 1, astal-powerMenu"
-
-          "blur, astal-full-blur"
-          "xray 1, astal-full-blur"
-          "animation fade, astal-full-blur"
         ];
 
         exec = optionals cfg.hyprland.autoStart ["pkill ${cfg.instanceName} ; ${lib.getExe cfg.package}"];
