@@ -1,13 +1,13 @@
-import { Variable } from "astal";
+import { createPoll } from "ags/time";
 
-const date = Variable("").poll(30000, 'date "+%e/%m/%Y"'); // 30s
-const time = Variable("").poll(1000, 'date "+%H:%M"'); // 1s
+const date = createPoll("", 30000, 'date "+%e/%m/%Y"'); // 30s
+const time = createPoll("", 1000, 'date "+%H:%M"'); // 1s
 
 export default () => {
     return <centerbox
         name="clock"
-        vertical
-        startWidget={<label label={time()} />}
-        endWidget={<label label={date()} />}>
+        vertical>
+        <label $type="start" label={time} />
+        <label $type="end" label={date} />
     </centerbox>
 }
