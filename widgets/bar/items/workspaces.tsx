@@ -55,7 +55,7 @@ export default () => {
             valign={Gtk.Align.CENTER}
             halign={Gtk.Align.START}
 
-            setup={(self) => {
+            $={(self) => {
                 self.hook(Hyprland, 'notify::focused-workspace', updateHighlight);
             }}
         />
@@ -72,7 +72,7 @@ export default () => {
                 overlay={highlight}
             >
                 <box
-                    setup={(self) => {
+                    $={(self) => {
                         const refresh = () => {
                             (self.get_children() as Widget.Revealer[]).forEach((rev) => {
                                 rev.set_reveal_child(false);

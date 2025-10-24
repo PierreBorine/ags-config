@@ -39,7 +39,7 @@ export default () => {
         <box
             class="bar-item system-tray"
             visible={bind(tray, 'items').as((items) => items.length !== 0)}
-            setup={(self) => {
+            $={self => {
                 self
                     .hook(tray, 'item-added', (_, item: string) => {
                         if (itemMap.has(item) || SKIP_ITEMS.includes(tray.get_item(item).get_title())) {

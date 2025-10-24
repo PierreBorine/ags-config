@@ -143,7 +143,7 @@ function ControlCenter() {
 				name="thingy"
 				shown={bind(menu, "menu_state")}
 				transitionType={Gtk.StackTransitionType.SLIDE_UP_DOWN}
-				setup={self => {
+				$={self => {
 					const topContainer = self.get_children()[0];
 					topContainer.class = `${topContainer.class} SysUtilsMenuContainerTop`;
 				}}

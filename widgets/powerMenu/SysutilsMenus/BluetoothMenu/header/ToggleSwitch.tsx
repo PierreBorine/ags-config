@@ -15,7 +15,7 @@ export const ToggleSwitch = (): JSX.Element => (
 		class="SysUtilsMenuTogglebutton"
 		valign={Gtk.Align.CENTER}
 		active={bluetoothService.isPowered}
-		setup={(self) => {
+		$={(self) => {
 			self.connect("notify::active", () => {
 				bluetoothService.adapter?.set_powered(self.active);
 			});

@@ -175,7 +175,7 @@ const mkImage = (wall: Wallpaper) => {
                 class={"image"}
                 halign={FILL}
                 valign={FILL}
-                setup={self => {
+                $={self => {
                     let result = false;
                     function applyThumbnailWithRetry(retry: number, timeout: number) {
                         result = GLib.file_test(wall.thumbnail, GLib.FileTest.EXISTS);
@@ -223,7 +223,7 @@ const mkPage = (dirName: string, childs: Wallpaper[]) => {
             <Grid
                 hexpand
                 halign={CENTER}
-                setup={self => {
+                $={self => {
                     self.get_children().forEach(child => {
                         self.remove(child);
                     });
@@ -278,7 +278,7 @@ export default function Wallpapers() {
                         >
                             <box
                                 spacing={4}
-                                setup={self => {
+                                $={self => {
                                     function updateAll(dirs: Dir[]) {
                                         self.get_children().forEach(child => {
                                             self.remove(child);
@@ -315,7 +315,7 @@ export default function Wallpapers() {
                     <stack
                         transitionType={Gtk.StackTransitionType.SLIDE_LEFT_RIGHT}
                         heightRequest={800}
-                        setup={self => {
+                        $={self => {
                             function updateAll(dirs: Dir[]) {
                                 self.get_children().forEach(child => {
                                     self.remove(child);
