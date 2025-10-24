@@ -1,33 +1,40 @@
 import GLib from "gi://GLib";
-import { Variable, bind } from "astal";
+import { createPoll } from "ags/time";
 
 export default () => {
-    const time = Variable(0).poll(1000, 'date "+%s"', (out: string) => parseInt(out));
-    const update = Variable({
-        is_outdated: false,
-        commit_date: 0
-    });
+    const emptyBox = (<box visible={false}></box>);
 
     // 1. Test if FLAKE env var is set
     const FLAKE = GLib.getenv("FLAKE");
     if (FLAKE) {
         print("nixpkgs check: $FLAKE is set");
         // 2. Test if flake.lock exists
-        if (GLib.file_test(FLAKE + '/flake.lock', GLib.FileTest.EXISTS)) {
-            print("nixpkgs check: flake.lock exists");
-            print("nixpkgs check: checking for updates...");
-            update.poll(
-                1800000, // 30 minutes
-                ["nixpkgs-update-checker", `nixos-unstable`],
-                (out: string) => JSON.parse(out)
-            );
-        } else print("nixpkgs check: $FLAKE/flake.lock doesn't exist")
-    } else print("nixpkgs check: $FLAKE is not set")
+        if (GLib.file_test(FLAKE + '/flake.lock', GLib.FileTest.EXISTS))
+            print("nixpkgs check: flake.lock exists")
+        else {
+            print("nixpkgs check: $FLAKE/flake.lock doesn't exist");
+            return emptyBox;
+        }
+    } else {
+        print("nixpkgs check: $FLAKE is not set")
+        return emptyBox;
+    }
+
+    const time = createPoll(0, 1000, 'date "+%s"', (out: string) => parseInt(out));
+    const update = createPoll(
+        {
+            is_outdated: false,
+            commit_date: 0
+        },
+        1800000, // 30 minutes
+        ["nixpkgs-update-checker", `nixos-unstable`],
+        (out: string) => JSON.parse(out)
+    );
 
     return (
         <button
             class="update"
-            tooltipText={bind(time).as(t => {
+            tooltipText={time(t => {
                 const ts = t - update.get().commit_date;
                 if (isNaN(ts)) return "A nixpkgs update is available";
                 let since = "";
@@ -42,7 +49,7 @@ export default () => {
                 } else since = `${Math.floor(ts/86400)} day(s)`;
                 return `A nixpkgs update is available since ${since}`
             })}
-            visible={bind(update).as(json => {
+            visible={update(json => {
                 print(`nixpkgs check: checked for updates, got : ${json.is_outdated}`);
                 return json.is_outdated;
             })}>
