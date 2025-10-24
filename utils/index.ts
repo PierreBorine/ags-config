@@ -1,9 +1,9 @@
-import { Gdk } from "astal/gtk3";
+import { Gdk } from "ags/gtk3";
 
 export const MOUSE_BUTTON = Object.freeze({
-  LEFT: 1,
-  MIDDLE: 2,
-  RIGHT: 3
+    LEFT: 1,
+    MIDDLE: 2,
+    RIGHT: 3
 });
 
 export function getMonitorIndex(gdkmonitor: Gdk.Monitor) {
