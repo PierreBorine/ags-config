@@ -1,5 +1,6 @@
-import { Gtk, Widget } from 'astal/gtk3';
-import { timeout } from 'astal';
+import { Gtk } from 'ags/gtk3';
+import { timeout } from 'ags/time';
+import { createState, onCleanup } from "ags";
 
 import AstalHyprland from 'gi://AstalHyprland';
 const Hyprland = AstalHyprland.get_default();
@@ -16,15 +17,15 @@ const Workspace = ({ id = 0 }) => {
             class="workspace"
         >
             <eventbox
-                cursor="pointer"
+                // cursor="pointer"
 
                 onClickRelease={() => dispatchWorkspace(id.toString())}
             >
                 <centerbox
                     valign={Gtk.Align.CENTER}
-                    class="button"
-                    centerWidget={<label label={id.toString()} />}
-                />
+                    class="button">
+                    <label $type="center" label={id.toString()} />
+                </centerbox>
             </eventbox>
         </revealer>
     );
@@ -34,17 +35,19 @@ export default () => {
     const L_PADDING = 2;
     const WS_WIDTH = 36;
 
-    const updateHighlight = (self: Widget.Box) => {
+    const [highlightMargin, setHighlightMargin] = createState("");
+
+    const updateHighlight = (self: Gtk.Box) => {
         const currentId = Hyprland.get_focused_workspace().get_id().toString();
 
-        const indicators = ((self.get_parent() as Widget.Overlay)
-            .get_child() as Widget.Box)
-            .get_children() as Widget.Revealer[];
+        const indicators = ((self.get_parent() as Gtk.Overlay)
+            .get_child() as Gtk.Box)
+            .get_children() as Gtk.Revealer[];
 
         const currentIndex = indicators.findIndex((w) => w.name === currentId);
 
         if (currentIndex >= 0) {
-            self.set_css(`margin-left: ${L_PADDING + (currentIndex * WS_WIDTH)}px`);
+            setHighlightMargin(`margin-left: ${L_PADDING + (currentIndex * WS_WIDTH)}px`);
         }
     };
 
@@ -55,13 +58,15 @@ export default () => {
             valign={Gtk.Align.CENTER}
             halign={Gtk.Align.START}
 
-            $={(self) => {
-                self.hook(Hyprland, 'notify::focused-workspace', updateHighlight);
+            css={highlightMargin}
+            $={self => {
+                const id = Hyprland.connect('notify::focused-workspace', () => updateHighlight(self));
+                onCleanup(() => Hyprland.disconnect(id));
             }}
         />
-    ) as Widget.Box;
+    ) as Gtk.Box;
 
-    let workspaces: Widget.Revealer[] = [];
+    let workspaces: Gtk.Revealer[] = [];
 
     return (
         <box
@@ -74,7 +79,7 @@ export default () => {
                 <box
                     $={(self) => {
                         const refresh = () => {
-                            (self.get_children() as Widget.Revealer[]).forEach((rev) => {
+                            (self.get_children() as Gtk.Revealer[]).forEach((rev) => {
                                 rev.set_reveal_child(false);
                             });
 
@@ -85,7 +90,7 @@ export default () => {
 
                         const updateWorkspaces = () => {
                             Hyprland.get_workspaces().forEach((ws) => {
-                                const currentWs = (self.get_children() as Widget.Revealer[])
+                                const currentWs = (self.get_children() as Gtk.Revealer[])
                                     .find((ch) => ch.name === ws.get_id().toString());
 
                                 if (!currentWs && ws.get_id() > 0) {
@@ -95,13 +100,13 @@ export default () => {
 
                             // Make sure the order is correct
                             workspaces.forEach((workspace, i) => {
-                                (workspace.get_parent() as Widget.Box)
+                                (workspace.get_parent() as Gtk.Box)
                                     .reorder_child(workspace, i);
                             });
                         };
 
                         const updateAll = () => {
-                            workspaces = (self.get_children() as Widget.Revealer[])
+                            workspaces = (self.get_children() as Gtk.Revealer[])
                                 .filter((ch) => {
                                     return Hyprland.get_workspaces().find((ws) => {
                                         return ws.get_id().toString() === ch.name;
@@ -119,7 +124,7 @@ export default () => {
                         };
 
                         updateAll();
-                        self.hook(Hyprland, 'event', updateAll);
+                        Hyprland.connect('event', updateAll);
                     }}
                 />
             </overlay>
