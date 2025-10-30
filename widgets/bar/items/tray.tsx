@@ -1,5 +1,7 @@
-import { App, Gtk, Widget } from 'astal/gtk3';
-import { bind, idle } from 'astal';
+import App from "ags/gtk3/app"
+import { Gtk, Gdk } from 'ags/gtk3';
+import { createBinding } from 'ags';
+import { idle } from 'ags/time';
 
 import AstalTray from 'gi://AstalTray';
 
@@ -17,14 +19,14 @@ const TrayItem = (item: AstalTray.TrayItem) => {
         >
             <menubutton
                 class="tray-item"
-                cursor="pointer"
+                // cursor={Gdk.Cursor.new_from_name("pointer", null)}
 
                 usePopover={false}
-                tooltipMarkup={bind(item, 'tooltipMarkup')}
-                actionGroup={bind(item, 'actionGroup').as((ag) => ['dbusmenu', ag])}
-                menuModel={bind(item, 'menuModel')}
+                tooltipMarkup={createBinding(item, 'tooltipMarkup')}
+                // actionGroup={createBinding(item, 'actionGroup').as((ag) => ['dbusmenu', ag])}
+                menuModel={createBinding(item, 'menuModel')}
             >
-                <icon gicon={bind(item, 'gicon')} />
+                <icon gicon={createBinding(item, 'gicon')} />
             </menubutton>
         </revealer>
     );
@@ -33,43 +35,42 @@ const TrayItem = (item: AstalTray.TrayItem) => {
 export default () => {
     const tray = AstalTray.get_default();
 
-    const itemMap = new Map<string, Widget.Revealer>();
+    const itemMap = new Map<string, Gtk.Revealer>();
 
     return (
         <box
             class="bar-item system-tray"
-            visible={bind(tray, 'items').as((items) => items.length !== 0)}
+            visible={createBinding(tray, 'items').as((items) => items.length !== 0)}
             $={self => {
-                self
-                    .hook(tray, 'item-added', (_, item: string) => {
-                        if (itemMap.has(item) || SKIP_ITEMS.includes(tray.get_item(item).get_title())) {
-                            return;
-                        }
+                tray.connect('item-added', (_, item: string) => {
+                    if (itemMap.has(item) || SKIP_ITEMS.includes(tray.get_item(item).get_title())) {
+                        return;
+                    }
 
-                        const widget = TrayItem(tray.get_item(item)) as Widget.Revealer;
+                    const widget = TrayItem(tray.get_item(item)) as Gtk.Revealer;
 
-                        itemMap.set(item, widget);
+                    itemMap.set(item, widget);
 
-                        self.add(widget);
+                    self.add(widget);
 
-                        idle(() => {
-                            widget.set_reveal_child(true);
-                        });
-                    })
-
-                    .hook(tray, 'item-removed', (_, item: string) => {
-                        if (!itemMap.has(item)) {
-                            return;
-                        }
-
-                        const widget = itemMap.get(item);
-
-                        widget?.set_reveal_child(false);
-
-                        setTimeout(() => {
-                            widget?.destroy();
-                        }, 1000);
+                    idle(() => {
+                        widget.set_reveal_child(true);
                     });
+                });
+
+                tray.connect('item-removed', (_, item: string) => {
+                    if (!itemMap.has(item)) {
+                        return;
+                    }
+
+                    const widget = itemMap.get(item);
+
+                    widget?.set_reveal_child(false);
+
+                    setTimeout(() => {
+                        widget?.destroy();
+                    }, 1000);
+                });
             }}
         />
     );
