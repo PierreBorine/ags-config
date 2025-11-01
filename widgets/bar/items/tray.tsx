@@ -1,6 +1,6 @@
 import App from "ags/gtk3/app"
 import { Gtk, Gdk } from 'ags/gtk3';
-import { createBinding } from 'ags';
+import { createBinding, onCleanup } from 'ags';
 import { idle } from 'ags/time';
 
 import AstalTray from 'gi://AstalTray';
@@ -42,7 +42,7 @@ export default () => {
             class="bar-item system-tray"
             visible={createBinding(tray, 'items').as((items) => items.length !== 0)}
             $={self => {
-                tray.connect('item-added', (_, item: string) => {
+                const id_added = tray.connect('item-added', (_, item: string) => {
                     if (itemMap.has(item) || SKIP_ITEMS.includes(tray.get_item(item).get_title())) {
                         return;
                     }
@@ -57,8 +57,9 @@ export default () => {
                         widget.set_reveal_child(true);
                     });
                 });
+                onCleanup(() => tray.disconnect(id_added));
 
-                tray.connect('item-removed', (_, item: string) => {
+                const removed_id = tray.connect('item-removed', (_, item: string) => {
                     if (!itemMap.has(item)) {
                         return;
                     }
@@ -71,6 +72,7 @@ export default () => {
                         widget?.destroy();
                     }, 1000);
                 });
+                onCleanup(() => tray.disconnect(removed_id));
             }}
         />
     );
