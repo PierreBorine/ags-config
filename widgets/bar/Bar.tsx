@@ -1,4 +1,5 @@
-import { App, Astal, Gtk, Gdk } from "astal/gtk3";
+import App from "ags/gtk3/app"
+import { Astal, Gtk, Gdk } from "ags/gtk3";
 
 import Clock from "./items/clock";
 import Workspaces from "./items/workspaces";
@@ -23,28 +24,32 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
         application={App}>
         <eventbox
             onScroll={(_, e) => dispatchWorkspace(e.delta_y > 0 ? 'e+1' : 'e-1')}>
-            <centerbox
-                startWidget={<box
+            <centerbox>
+                <box
+                    $type="start"
                     class="left"
                     spacing={8}
                     halign={Gtk.Align.START}>
                     <Workspaces />
-                </box>}
+                </box>
 
-                centerWidget={<box
+                <box
+                    $type="center"
                     class="center"
                     spacing={8}>
                     <Clock />
-                </box>}
+                </box>
 
-                endWidget={<box
+                <box
+                    $type="end"
                     class="end"
                     spacing={8}
                     halign={Gtk.Align.END}>
                     <Tray />
                     <UpdateIcon />
                     <PowerMenuBtn />
-                </box>} />
+                </box>
+            </centerbox>
         </eventbox>
     </window>
 }
