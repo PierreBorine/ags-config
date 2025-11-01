@@ -83,6 +83,8 @@
 
           runHook postInstall
         '';
+
+        meta.mainProgram = name;
       };
 
     packages.${system} = {
