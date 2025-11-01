@@ -49,7 +49,6 @@
         src = [
           varsTS
           ./icons
-          ./services
           ./utils
           ./widgets
           ./app.ts
