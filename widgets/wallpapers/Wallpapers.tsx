@@ -1,8 +1,9 @@
-import { exec, execAsync } from "astal/process";
-import { App, Astal, Gdk, Gtk } from "astal/gtk3";
-import { Grid, Separator, Spinner } from "../../utils/Astalified";
-import { Variable, timeout } from "astal";
+import { exec, execAsync } from "ags/process";
+import App from "ags/gtk3/app"
+import { Astal, Gdk, Gtk } from "ags/gtk3";
+import { timeout } from "ags/time";
 import GLib from "gi://GLib";
+import { createState, Accessor, State } from "ags";
 
 const { CENTER, FILL } = Gtk.Align;
 
@@ -76,30 +77,30 @@ function readDirs(path: string): string[] {
         .filter(p => p.trim() !== "" && GLib.file_test(path + '/' + p, GLib.FileTest.IS_DIR));
 }
 
-const wallpaper_dirs: Variable<Dir[]> = Variable([]);
-const currentPage = Variable("");
-const refreshing = Variable(false);
+const [wallpaper_dirs, setWallpaper_dirs] = createState([]);
+const [currentPage, setCurrentPage] = createState("");
+const [refreshing, setRefreshing] = createState(false);
 
 let wallpapers_sum = "";
 function updateWallpapers() {
-    refreshing.set(true);
+    setRefreshing(true);
 
     // only proceed if there are changes in the wallpapers directory
     const new_sum = exec(`bash -c "find '${wallpapers_path}' -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum"`);
     if (new_sum === wallpapers_sum) {
-        timeout(200, () => refreshing.set(false));
+        timeout(200, () => setRefreshing(false));
         return;
     }
     wallpapers_sum = new_sum;
 
     const subDirsFiles = readDirs(wallpapers_path);
-    const subDirs = wallpaper_dirs.get().filter(d => {
+    const subDirs = wallpaper_dirs.get().filter((d) => {
         const is_root = GLib.path_get_basename(wallpapers_path) === d.name;
         const still_exists = GLib.file_test(wallpapers_path + '/' + d.name, GLib.FileTest.EXISTS);
         return (!is_root && still_exists);
     });
     // Handle removed sub-dirs
-    subDirs.forEach((d, i) => {
+    subDirs.forEach((d: Dir, i: Number) => {
         const still_exists = subDirsFiles.find(fname => fname === d.name);
         if (!still_exists)
             subDirs.splice(i, 1);
@@ -107,7 +108,7 @@ function updateWallpapers() {
 
     // Handle new sub-dirs
     subDirsFiles.forEach(dname => {
-        const is_new = !subDirs.find(wp => dname === wp.name);
+        const is_new = !subDirs.find((wp: Wallpaper) => dname === wp.name);
         if (is_new)
             subDirs.push(new Dir(wallpapers_path, dname));
     });
@@ -118,7 +119,7 @@ function updateWallpapers() {
     pre_wallpaper_dirs.forEach(d => {
         const wallsFiles = readFiles(d.fullPath);
         // Handle removed wallpapers
-        d.childs.forEach((wp, i) => {
+        d.childs.forEach((wp: Wallpaper, i: Number) => {
             const still_exists = wallsFiles.find(fname => fname === wp.name);
             if (!still_exists)
                 d.childs.splice(i, 1);
@@ -126,16 +127,16 @@ function updateWallpapers() {
 
         // Handle new wallpapers
         wallsFiles.forEach(fname => {
-            const is_new = !d.childs.find(wp => fname === wp.name);
+            const is_new = !d.childs.find((wp: Wallpaper) => fname === wp.name);
             if (is_new)
                 d.childs.push(new Wallpaper(d.fullPath, fname));
         });
     });
 
     // Apply changes
-    wallpaper_dirs.set(pre_wallpaper_dirs);
+    setWallpaper_dirs(pre_wallpaper_dirs);
 
-    timeout(200, () => refreshing.set(false));
+    timeout(200, () => setRefreshing(false));
 }
 updateWallpapers();
 
@@ -175,26 +176,12 @@ const mkImage = (wall: Wallpaper) => {
                 class={"image"}
                 halign={FILL}
                 valign={FILL}
-                $={self => {
-                    let result = false;
-                    function applyThumbnailWithRetry(retry: number, timeout: number) {
-                        result = GLib.file_test(wall.thumbnail, GLib.FileTest.EXISTS);
-                        if (retry <= 0 || result) {
-                            self.css = `
-                                background-image: url("${wall.thumbnail}");
-                                background-size: cover;
-                                background-repeat: no-repeat;
-                                background-position: center;
-                            `;
-                            return;
-                        }
-
-                        setTimeout(() => {
-                            applyThumbnailWithRetry(retry - 1, timeout);
-                        }, timeout * 1000);
-                    }
-                    applyThumbnailWithRetry(2, 2);
-                }}
+                css={`
+                    background-image: url("${wall.thumbnail}");
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                `}
             />
         </button>
     );
@@ -205,7 +192,7 @@ const mkPageBtn = (dirName: string) => {
         <button
             name={dirName}
             class="pageBtn"
-            onClick={() => currentPage.set(dirName)}
+            onClick={() => setCurrentPage(dirName)}
             label={dirName}
         />
     )
@@ -220,7 +207,7 @@ const mkPage = (dirName: string, childs: Wallpaper[]) => {
             halign={FILL}
             valign={FILL}
         >
-            <Grid
+            <Gtk.Grid
                 hexpand
                 halign={CENTER}
                 $={self => {
@@ -242,7 +229,7 @@ function hide() {
 }
 
 export default function Wallpapers() {
-    const width = Variable(1000)
+    const [width, setWidth] = createState(1000)
 
     return <window
         name="wallpapers"
@@ -253,14 +240,15 @@ export default function Wallpapers() {
         keymode={Astal.Keymode.ON_DEMAND}
         application={App}
         onShow={self => {
-            width.set(self.get_current_monitor().workarea.width)
+            setWidth(self.get_current_monitor().workarea.width)
         }}
-        onKeyPressEvent={function (self, event: Gdk.Event) {
-            if (event.get_keyval()[1] === Gdk.KEY_Escape)
-                self.hide()
-        }}>
+        // onKeyPressEvent={function (self, event: Gdk.Event) {
+        //     if (event.get_keyval()[1] === Gdk.KEY_Escape)
+        //         self.hide()
+        // }}
+        >
         <box>
-            <eventbox widthRequest={width()} expand onClick={hide} />
+            <eventbox widthRequest={width} expand onClick={hide} />
             <box hexpand={false} vertical>
                 <eventbox heightRequest={100} onClick={hide} />
                 <box
@@ -292,7 +280,7 @@ export default function Wallpapers() {
                                     }
 
                                     updateAll(wallpaper_dirs.get());
-                                    wallpaper_dirs.subscribe(updateAll)
+                                    wallpaper_dirs(updateAll)
                                 }}>
                             </box>
                         </scrollable>
@@ -300,28 +288,29 @@ export default function Wallpapers() {
                             class="reload">
                             <button
                                 visible={refreshing(state => !state)}
-                                child={<icon icon="update-symbolic"/>}
-                                onClick={updateWallpapers}
-                            />
-                            <Spinner
+                                onClick={updateWallpapers}>
+                                <icon icon="update-symbolic"/>
+                            </button>
+                            <Gtk.Spinner
                                 halign={CENTER}
                                 valign={CENTER}
-                                visible={refreshing()}
-                                active={refreshing()}
+                                visible={refreshing}
+                                active={refreshing}
                             />
                         </box>
                     </box>
-                    <Separator />
+                    <Gtk.Separator />
                     <stack
                         transitionType={Gtk.StackTransitionType.SLIDE_LEFT_RIGHT}
                         heightRequest={800}
+                        visibleChildName={currentPage(n => n + '-stack')}
                         $={self => {
                             function updateAll(dirs: Dir[]) {
                                 self.get_children().forEach(child => {
                                     self.remove(child);
                                 });
 
-                                dirs.forEach(d => {
+                                dirs.forEach((d: Dir) => {
                                     const exists = self.get_children().find(el => el.name === (d.name + '-stack'));
                                     if (!exists)
                                         self.add_named(mkPage(d.name, d.childs), d.name + '-stack');
@@ -329,8 +318,7 @@ export default function Wallpapers() {
                             }
 
                             updateAll(wallpaper_dirs.get());
-                            wallpaper_dirs.subscribe(updateAll);
-                            currentPage.subscribe(n => self.visibleChildName = n + '-stack');
+                            wallpaper_dirs(updateAll);
                         }}
                     />
                 </box>
