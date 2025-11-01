@@ -39,7 +39,6 @@
       astalPackages
       ++ [
         pkgs.libadwaita
-        pkgs.libsoup_3
         pkgs.ffmpegthumbnailer
         self.packages.${system}.nixpkgs-update-checker
       ];
