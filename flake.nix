@@ -30,11 +30,7 @@
 
     extraPackages =
       astalPackages
-      ++ [
-        pkgs.libadwaita
-        pkgs.ffmpegthumbnailer
-        self.packages.${system}.nixpkgs-update-checker
-      ];
+      ++ [pkgs.libadwaita];
   in {
     lib.mkBundle = {name ? "astal-widgets"}: let
       varsTS = pkgs.writeText "vars.ts" ''
@@ -70,6 +66,15 @@
         '';
         patchPhase = ''
           sed -i "s/\$nixout/''${out//\//\\/}/g" vars.ts
+        '';
+
+        preFixup = ''
+          gappsWrapperArgs+=(
+            --prefix PATH : ${pkgs.lib.makeBinPath [
+            pkgs.ffmpegthumbnailer
+            self.packages.${system}.nixpkgs-update-checker
+          ]}
+          )
         '';
 
         installPhase = ''
