@@ -116,9 +116,16 @@
       };
     };
 
-    homeManagerModules = {
-      default = self.homeManagerModules.ags-config;
+    homeModules = {
+      default = self.homeModules.ags-config;
       ags-config = import ./nix/hm.nix self;
+    };
+
+    homeManagerModules = let
+      deprecateTo = builtins.warn "ags-config: `homeManagerModules` is deprecated, please use `homeModules` instead.";
+    in {
+      default = deprecateTo self.homeModules.ags-config;
+      ags-config = deprecateTo (import ./nix/hm.nix self);
     };
   };
 }
