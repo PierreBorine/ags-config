@@ -39,12 +39,10 @@ in {
     wayland.windowManager.hyprland = {
       settings = {
         layerrule = optionals cfg.hyprland.layerrules [
-          "blur, ^(astal-)(.*)$"
-          "ignorezero, ^(astal-)(.*)$"
-          "xray 1, ^(astal-bar-)(.*)$"
-          "animation slide right, astal-wallpapers"
+          "match:class ^(astal-)(.*)$, blur on, xray on, ignore_alpha 0"
+          "match:class astal-wallpapers, animation slide right"
           # Put the power menu under the bar
-          "order 1, astal-powerMenu"
+          "match:class astal-powerMenu, order 1"
         ];
 
         exec = optionals cfg.hyprland.autoStart ["pkill ${cfg.instanceName} ; ${lib.getExe cfg.package}"];
