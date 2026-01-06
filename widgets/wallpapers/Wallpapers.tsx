@@ -67,14 +67,14 @@ function readFiles(path: string): string[] {
     return exec(`ls '${path}'`)
         .trim()
         .split("\n")
-        .filter(p => p.trim() !== "" && !GLib.file_test(path + '/' + p, GLib.FileTest.IS_DIR));
+        .filter((p: string) => p.trim() !== "" && !GLib.file_test(path + '/' + p, GLib.FileTest.IS_DIR));
 }
 
 function readDirs(path: string): string[] {
     return exec(`ls '${path}'`)
         .trim()
         .split("\n")
-        .filter(p => p.trim() !== "" && GLib.file_test(path + '/' + p, GLib.FileTest.IS_DIR));
+        .filter((p: string) => p.trim() !== "" && GLib.file_test(path + '/' + p, GLib.FileTest.IS_DIR));
 }
 
 const [wallpaper_dirs, setWallpaper_dirs] = createState([]);
@@ -94,13 +94,13 @@ function updateWallpapers() {
     wallpapers_sum = new_sum;
 
     const subDirsFiles = readDirs(wallpapers_path);
-    const subDirs = wallpaper_dirs.get().filter((d) => {
+    const subDirs = wallpaper_dirs.get().filter((d: Dir) => {
         const is_root = GLib.path_get_basename(wallpapers_path) === d.name;
         const still_exists = GLib.file_test(wallpapers_path + '/' + d.name, GLib.FileTest.EXISTS);
         return (!is_root && still_exists);
     });
     // Handle removed sub-dirs
-    subDirs.forEach((d: Dir, i: Number) => {
+    subDirs.forEach((d: Dir, i: number) => {
         const still_exists = subDirsFiles.find(fname => fname === d.name);
         if (!still_exists)
             subDirs.splice(i, 1);
@@ -119,7 +119,7 @@ function updateWallpapers() {
     pre_wallpaper_dirs.forEach(d => {
         const wallsFiles = readFiles(d.fullPath);
         // Handle removed wallpapers
-        d.childs.forEach((wp: Wallpaper, i: Number) => {
+        d.childs.forEach((wp: Wallpaper, i: number) => {
             const still_exists = wallsFiles.find(fname => fname === wp.name);
             if (!still_exists)
                 d.childs.splice(i, 1);
