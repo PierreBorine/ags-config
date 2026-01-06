@@ -53,7 +53,14 @@ export default () => {
                 print(`nixpkgs check: checked for updates, got : ${json.is_outdated}`);
                 return json.is_outdated;
             })}>
-            <icon icon="software-update-available-symbolic" />
+            <icon icon={time(t => {
+                const ts = t - update.get().commit_date;
+                if (!isNaN(ts) && ts < 86400) { // Highlight recent updates
+                    return "software-update-urgent-symbolic";
+                } else {
+                    return "software-update-available-symbolic"
+                }
+            })}/>
         </button>
     );
 }
