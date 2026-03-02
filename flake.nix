@@ -112,6 +112,7 @@
         buildInputs = [
           (ags.packages.${system}.default.override {inherit extraPackages;})
           self.packages.${system}.nixpkgs-update-checker
+          pkgs.typos
         ];
       };
     };
