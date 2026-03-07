@@ -40,7 +40,6 @@ in {
       settings = {
         layerrule = optionals cfg.hyprland.layerrules [
           "match:class ^(astal-)(.*)$, blur on, xray on, ignore_alpha 0"
-          "match:class astal-wallpapers, animation slide right"
           # Put the power menu under the bar
           "match:class astal-powerMenu, order 1"
         ];

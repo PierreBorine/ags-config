@@ -18,23 +18,9 @@ My personal <a href="https://github.com/Aylur/ags">Ags</a>/<a href="https://gith
 
 ## Features
 
-<details>
-<summary>A top bar</summary>
+### A top bar
 
   - Default keybind to open the power menu is <kbd>$mainMod, m</kbd>
-
-</details>
-<details>
-<summary>A wallpaper selector</summary>
-
-  - Right now, it only works with [swww](https://github.com/LGFae/swww), making it a requierment.<br>
-  I plan to change that.
-  - `ffmpegthumbnailer` is also requierd for generating thumbnails.
-  - Wallpapers have to be located in<br>
-  `~/Pictures/Wallpapers/images`.
-  - Only one level of sub-directories is supported.
-
-</details>
 
 ## Running
 If using Nix, you can simply run the following command to try it without installing
@@ -83,9 +69,6 @@ For convenience, the flake provides a Home Manager module
 }
 ```
 
-> [!TIP]
-> If you have an [impermanent](https://github.com/nix-community/impermanence) setup, you should persist `$HOME/.cache/astal`.
-
 > [!NOTE]
 > Local `vars.ts` is ignored by the Nix bundler. Instead, it uses one generated with Nix.
 
@@ -107,7 +90,6 @@ decoration:blur {
 layerrule = blur, ^(astal-)(.*)$
 layerrule = ignorezero, ^(astal-)(.*)$
 layerrule = animation popin, astal-launcher
-layerrule = animation slide right, astal-wallpapers
 layerrule = order 1, astal-powerMenu
 ```
 
