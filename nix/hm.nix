@@ -40,7 +40,7 @@ in {
     wayland.windowManager.hyprland = {
       settings = {
         layerrule = optionals cfg.hyprland.layerrules [
-          "match:class ^(astal-)(.*)$, blur on, xray on, ignore_alpha 0"
+          "match:namespace ^(astal-)(.*)$, blur on, xray on, ignore_alpha 0"
         ];
 
         # bind = optionals cfg.hyprland.binds [];
