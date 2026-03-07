@@ -18,7 +18,6 @@ in {
       type = types.package;
       default = agsBundle;
       description = "Ags bundle used";
-      readOnly = true;
     };
 
     instanceName = mkOption {
@@ -27,28 +26,41 @@ in {
       description = "Name for the Astal instance";
     };
 
+    systemd.enable = mkEnableOption "start the config with hyprland using a systemd service";
+
     hyprland = {
       layerrules = mkEnableOption "layerrules to get the intended look" // {default = true;};
-      autoStart = mkEnableOption "start the config with hyprland";
       binds = mkEnableOption "my opinionated binds to toggle some widgets";
     };
   };
 
   config = mkIf cfg.enable {
     home.packages = [pkgs.ags];
+
     wayland.windowManager.hyprland = {
       settings = {
         layerrule = optionals cfg.hyprland.layerrules [
           "match:class ^(astal-)(.*)$, blur on, xray on, ignore_alpha 0"
-          # Put the power menu under the bar
-          "match:class astal-powerMenu, order 1"
         ];
 
-        exec = optionals cfg.hyprland.autoStart ["pkill ${cfg.instanceName} ; ${lib.getExe cfg.package}"];
+        # bind = optionals cfg.hyprland.binds [];
+      };
+    };
 
-        bind = optionals cfg.hyprland.binds [
-          "$mainMod, M, exec, ags toggle -i '${cfg.instanceName}' astal-powerMenu #utilities: Open the power menu"
-        ];
+    systemd.user.services.ags-config = mkIf cfg.systemd.enable {
+      Install.WantedBy = ["hyprland-session.target"];
+
+      Unit = {
+        Description = "Astal/Ags desktop shell configuration";
+        PartOf = ["hyprland-session.target"];
+        After = ["hyprland-session.target"];
+      };
+
+      Service = {
+        Type = "simple";
+        Restart = "on-failure";
+        RestartSec = "5s";
+        ExecStart = "${lib.getExe cfg.package}";
       };
     };
   };
