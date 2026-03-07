@@ -10,6 +10,7 @@ My personal <a href="https://github.com/Aylur/ags">Ags</a>/<a href="https://gith
 configuration for Hyprland
 </p>
 
+old screenshot:
 <div align="center"><img src=".github/assets/showcase.png" alt="Ags showcase"></div>
 
 > [!WARNING]
@@ -20,9 +21,7 @@ configuration for Hyprland
 
 ## Features
 
-### A top bar
-
-- Default keybind to open the power menu is <kbd>$mainMod, m</kbd>
+only a basic bar
 
 ## Running
 
@@ -64,14 +63,16 @@ For convenience, the flake provides a Home Manager module
     # Also installs `pkgs.ags`
     enable = true;
 
+    # false by default
+    systemd.enable = true;
+
     hyprland = {
       # true by default
       layerrules = true;
       # false by default
       autoStart = true;
       # false by default
-      # If you don't like my binds, copy them
-      # from `hm.nix` and edit them to your liking.
+      # currently does nothing
       binds = true;
     };
   };
@@ -99,10 +100,7 @@ decoration:blur {
 }
 
 # Included in the Home Manager module
-layerrule = blur, ^(astal-)(.*)$
-layerrule = ignorezero, ^(astal-)(.*)$
-layerrule = animation popin, astal-launcher
-layerrule = order 1, astal-powerMenu
+layerrule = match:namespace ^(astal-)(.*)$, blur on, xray on, ignore_alpha 0
 ```
 
 ## Other configs I took inspiration and code from
