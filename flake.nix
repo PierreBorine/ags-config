@@ -78,7 +78,6 @@
         preFixup = ''
           gappsWrapperArgs+=(
             --prefix PATH : ${pkgs.lib.makeBinPath [
-            pkgs.ffmpegthumbnailer
             self.packages.${system}.nixpkgs-update-checker
           ]}
           )
