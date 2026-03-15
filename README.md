@@ -5,6 +5,10 @@
 
 ---
 
+> [!NOTE]
+> This project has [given up on github](https://giveupgithub.org) and is now
+> hosted on [Codeberg](https://codeberg.org/PierreBorine/ags-config).
+
 <p align="center">
 My personal <a href="https://github.com/Aylur/ags">Ags</a>/<a href="https://github.com/aylur/astal">Astal</a>
 configuration for Hyprland
